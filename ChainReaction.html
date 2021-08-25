@@ -259,6 +259,7 @@
         font-size: 25px;
         font-weight: 500;
         cursor: pointer;
+        display: none;
     }
 
     .nextButton:active {
@@ -534,7 +535,7 @@
         team[3].name = $('#teamName4').val().trim() || 'Life of Pie';
         $('.displayBox').removeClass('col-md-12').addClass('col-md-6');
         $('#team').hide();
-        $('.checkWord, .scoreBoard, #GameOn').addClass('displayFlex');
+        $('.checkWord, .scoreBoard, #GameOn, .nextButton').addClass('displayFlex');
         gameInitialSetup();
         //$('').addClass('displayFlex');
     });
