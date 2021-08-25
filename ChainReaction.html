@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<style>
+    body {
+        background-color: #e3e3e3;
+        user-select: none;
+    }
+
+    .header {
+        min-height: 60px;
+        text-align: center;
+        font-weight: bold;
+        background-color: #ffffff;
+        border-radius: 20px 20px 0 0;
+    }
+
+    .headerText {
+        font-size: 40px;
+        padding: 10px 0px;
+        color: #848484;
+        font-style: italic;
+    }
+
+    .mainDisplay {
+        text-align: center;
+    }
+
+    .mainDisplay>div {
+        border: 1px solid #ffffff;
+        min-height: 400px;
+        background: #9fc1ff;
+
+    }
+
+    .control {
+        padding: 100px 0px 0 0;
+
+    }
+
+    .hindi,
+    .eng,
+    .prev {
+        font-size: 20px;
+        margin: 25px 0;
+        color: #ed088c;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .prev {
+        display: none;
+    }
+
+    .hindi span,
+    .eng span,
+    .prev span {
+        padding: 0 10px;
+    }
+
+    .timer {
+        font-size: 35px;
+
+    }
+
+    .arrow {
+        color: #d1d1d1;
+    }
+
+    .arrow:hover {
+        cursor: pointer;
+    }
+
+    .timerBtn {
+        padding: 5px 35px;
+        font-size: 20px;
+        border: none;
+        color: white;
+    }
+
+    .timerBtn span {
+        padding-right: 10px;
+    }
+
+    .start:hover {
+        color: white;
+        font-size: 21px;
+    }
+
+    .start {
+        background-color: #5b5b5b;
+    }
+
+    .displayBox,
+    .timerDisplay {
+        /* display: flex;
+        justify-content: center;
+        align-items: center;*/
+    }
+
+    .displayBox {
+        background-color: rgba(255, 250, 206, 0.7);
+        background-image: repeating-linear-gradient(45deg, currentColor 0, currentColor 1px, transparent 0, transparent 50%);
+        background-size: 25px 25px;
+        color: white;
+
+    }
+
+    ​ .display {
+        color: #3f3f3f;
+    }
+
+    .display {
+        color: #686868 !important;
+        font-size: 25px;
+        font-weight: 600;
+        background-color: white;
+        padding: 15px;
+        border-radius: 20px;
+        box-shadow: -7px 7px 20px 0px #ed67081c;
+        border: 1px solid #ed670829;
+    }
+
+    .stop,
+    .stop:hover {
+        background-color: #c88c1f;
+        color: #ffffff;
+    }
+
+    .reset {
+        color: #3f3f3f;
+        border: 1px solid #343434;
+        padding: 5px 18px;
+        display: none;
+        background: #ffffff;
+    }
+
+    .btn-check:focus+.btn,
+    .btn:focus {
+        box-shadow: none;
+    }
+
+    .twisterOverlay {
+        /*  background: repeating-linear-gradient(45deg, transparent, transparent 0px, #b4b4b4 7px, #b4b4b4 calc(2 * 16px));
+        color: #b4b4b473 !important;
+        box-shadow: none !important;
+        border: none;*/
+
+        background: linear-gradient(217deg, #d5d5d5d9, #84848491);
+        color: #b8b8b81a !important;
+        box-shadow: -5px 5px 0px 0 #868686c7;
+        border: none;
+
+        /* background: linear-gradient(152deg, #ffdaa2d9, #ff8989b8);
+        color: #ffdaa22e !important;
+        box-shadow: none !important;
+        border: none;*/
+    }
+
+    .timerOverMsg {
+        font-size: 30px;
+        position: absolute;
+        display: none;
+        color: #fcf400;
+        padding: 10px;
+        border-radius: 10px;
+        /*width: 42%;*/
+        background: linear-gradient(30deg, #911d1d, #dd5a5a);
+        font-weight: 900;
+    }
+
+    @keyframes swing {
+
+        20%,
+        50%,
+        80%,
+        100% {
+            transform: translateY(0);
+        }
+
+        0% {
+            transform: translateY(-30px);
+        }
+
+        40% {
+            transform: translateY(-20px);
+        }
+
+        60% {
+            transform: translateY(-10px);
+        }
+    }
+
+    .displayEffect {
+        -webkit-animation: swing 1s ease;
+        animation: swing 1s ease;
+        -webkit-animation-iteration-count: 1;
+        animation-iteration-count: 1;
+    }
+
+    /*.info{
+        position: absolute;
+        bottom: 0;
+    }*/
+</style>
+
+<style>
+    #GameOn {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    table {
+        border-collapse: separate;
+        border-spacing: 4px 20px;
+    }
+
+    table td {
+        min-width: 50px;
+        height: 60px;
+        border: 1px solid #ffffff;
+        font-size: 35px;
+        font-family: monospace;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+
+    .firstWord td,
+    .lastWord td {
+        background: #364485;
+    }
+
+    .unsolved td {
+        background: radial-gradient(#c9c42f, #a69040);
+        color: transparent;
+    }
+
+    .solved td {
+        background: linear-gradient(227deg, #00b0a8, #4273ff);
+    }
+
+    .checkWord,
+    .nextButton,
+    .scoreBoard {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .nextButton {
+        color: #a08c37;
+        font-size: 25px;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .nextButton:active {
+        color: #725f0e;
+        text-shadow: 0 0 2px #cb3939;
+        font-size: 24px;
+    }
+
+    .checkWord input,
+    .checkWord button {
+        width: 70%;
+        padding: 8px 15px !important;
+    }
+
+    .checkWord input:focus {
+        outline: none;
+    }
+
+    .checkWord button,
+    #startGameBtn button {
+        background-color: #3f038d;
+        text-transform: uppercase;
+        outline: none;
+    }
+
+    .checkWord button:active {
+        width: 68%;
+
+    }
+
+    .checkWord input {
+        font-size: 19px;
+        border-radius: 3px;
+        border: none;
+        color: #0073aa;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
+    .unhiddenCard {
+        background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(0, 176, 168)), to(rgb(66, 115, 255))) !important;
+        color: rgb(255, 255, 255) !important;
+    }
+
+    .lastBox {
+        background: linear-gradient(45deg, #da12ff, #ff3131) !important;
+        -webkit-animation: lastBoxAnimate 1s ease infinite;
+        animation: lastBoxAnimate 1s ease infinite;
+    }
+
+    @keyframes lastBoxAnimate {
+
+        0% {
+            -webkit-transform: scale(1);
+        }
+
+        50% {
+            -webkit-transform: scale(1.2);
+        }
+
+        100% {
+            -webkit-transform: scale(1);
+        }
+    }
+
+    .wrongAnswer {
+        -webkit-animation: wrongAnswerAnimate 1s ease;
+        animation: wrongAnswerAnimate 1s ease;
+    }
+
+    @keyframes wrongAnswerAnimate {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        25% {
+            -webkit-transform: rotate(25deg);
+        }
+
+        50% {
+            -webkit-transform: rotate(-25deg);
+        }
+
+        75% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(25deg);
+        }
+
+    }
+
+    #team {
+        margin-top: 40px;
+    }
+
+    .teamMsg h2,
+    .teamSelect {
+        display: inline-block;
+    }
+
+    .teamSelect {
+        margin-left: 45px;
+    }
+
+    .teamSelect input {
+        height: 25px;
+        width: 25px;
+    }
+
+    .teamSelect label {
+        font-size: 30px;
+        margin-right: 30px;
+    }
+
+    #teamName,
+    #teamName #startGameBtn {
+        margin: 30px auto;
+    }
+
+    #teamName div {
+        width: 30%;
+        margin: 15px auto;
+    }
+
+    #teamName div>span {
+        font-size: 30px;
+        margin-right: 20px;
+    }
+
+    #startGameBtn button {
+        width: 79%;
+        margin-left: 60px;
+    }
+
+    .team2,
+    .team3,
+    .team4,
+    .checkWord,
+    #GameOn,
+    .scoreBoard {
+        display: none;
+    }
+
+    .displayFlex {
+        display: flex !important;
+    }
+
+    .scoreBoard div {
+        font-size: 16px;
+        margin: 20px 0;
+        background: #ffffffbf;
+        padding: 10px 20px;
+        border-radius: 35px;
+    }
+
+    .scoreBoard {
+        text-align: right;
+        padding-right: 30px;
+
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h3 class="headerText">Chain &#10233; Reaction</h3>
+        <div class="header row">
+            <div class="col-md-9 "></div>
+            <div class="col-md-3 nextButton">Next &#10154;</div>
+        </div>
+        <div class="row mainDisplay">
+            <div class="col-md-3 scoreBoard"></div>
+            <div class="col-md-12 displayBox">
+                <table id="GameOn">
+                    <tbody>
+                        <tr class="firstWord"></tr>
+                        <tr class="secondWord"></tr>
+                        <tr class="thirdWord"></tr>
+                        <tr class="fourthWord"></tr>
+                        <tr class="fifthWord"></tr>
+                        <tr class="lastWord"></tr>
+                    </tbody>
+                </table>
+                <div id="team">
+                    <div class="row">
+                        <div class="teamMsg">
+                            <h2>Teams playing : </h2>
+                            <div class="teamSelect">
+                                <input type="radio" id="team1" name="Team" value="1" checked><label
+                                    for="team1">1</label>
+                                <input type="radio" id="team2" name="Team" value="2"><label for="team2">2</label>
+                                <input type="radio" id="team3" name="Team" value="3"><label for="team3">3</label>
+                                <input type="radio" id="team4" name="Team" value="4"><label for="team4">4</label>
+                            </div>
+                            <div id="teamName">
+                                <div class="input-group team1"><span>&#128038;</span><input class="form-control"
+                                        id="teamName1"/></div>
+                                <div class="input-group team2"><span>&#128009;</span><input class="form-control"
+                                        id="teamName2"/></div>
+                                <div class="input-group team3"><span>&#128011;</span><input class="form-control"
+                                        id="teamName3"/></div>
+                                <div class="input-group team4"><span>&#128008;</span><input class="form-control"
+                                        id="teamName4"/></div>
+                                <div id="startGameBtn">
+                                    <button class="btn btn-primary">Start Game</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 checkWord">
+                <div><input id="checkWord" onkeypress="return enterKeyPressed(event)" /></div>
+                <br />
+                <div><button class="btn btn-primary checkWordBtn">Check</button></div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+            crossorigin="anonymous"></script>
+</body>
+<script>
+    var list = [["Amazon", "Try", "Walk", "sometext", "halt", "goon"], ["Testword", "alpha", "Morning", "Try", "Walk", "sometext"], ["Edvard", "volume", "attention", "works", "became", "effects"], ["Testword", "alpha", "Morning", "Try", "Walk", "sometext"], ["design", "August", "eggs", "Try", "Walk", "various"], ["Nevada", "news", "apple", "tree", "cars", "house"], ["hello", "roadside", "trying", "star", "cake", "moon"], ["test", "god", "rest", "home", "lion", "tiger"]];
+    var index = randomIndex(list.length);//console.log(list);console.log(index);
+    var indexTrack = 0;
+    var maxWordLen = 8;
+    $selectedRow = $('.secondWord');
+    var unhideUnavailableRow = [0, 1, 0, 0, 1];
+    const team = [{ name: "Kookaburra", symbol: "&#128038;", score: 0 },{ name: "Balerion", symbol: '&#128009;', score: 0 },{ name: "Orca", symbol: '&#128011;', score: 0 },{ name: "Life of Pie", symbol: '&#128008;', score: 0 }];
+    $('#teamName1').val(team[0].name);
+    $('#teamName2').val(team[1].name);
+    $('#teamName3').val(team[2].name);
+    $('#teamName4').val(team[3].name);
+    var playingTeam = 1;
+
+    $(function () {
+        $('.unsolved').click(function () {
+            $curr = $(this).children().siblings('.unhide');
+            $currClass = $(this);
+            var indexAttr = $currClass.attr('index'); //console.log($.inArray(index,unhideUnavailableRow));
+            if (unhideUnavailableRow[indexAttr] == 1) {
+                $selectedRow = $currClass;
+                //console.log($selectedRow); //console.log($currClass.children('.unhiddenCard').length);
+                if ($currClass.children('.unhiddenCard').length < ($currClass.attr('len') - 1)) {
+                    $curr.addClass("unhiddenCard").removeClass('unhide');
+                    $curr.next().addClass('unhide');
+                }
+                else {
+                    $curr.addClass('lastBox').removeClass('unhide');
+                }
+            }
+        });
+    });
+
+    $('input[type=radio][name=Team]').change(function () {
+        playingTeam = parseInt(this.value);
+        switch (this.value) {
+            case "4":
+                $('.team4, .team3, .team2, .team1').addClass('displayFlex'); break;
+            case "3":
+                $('.team3, .team2, .team1').addClass('displayFlex'); $('.team4').removeClass('displayFlex'); break;
+            case "2":
+                $('.team2, .team1').addClass('displayFlex'); $('.team4, .team3').removeClass('displayFlex'); break;
+            case "1":
+                $('.team1').addClass('displayFlex'); $('.team4, .team3, .team2').removeClass('displayFlex');
+        }
+    });
+    $('#startGameBtn button').click(function () {
+        team[0].name = $('#teamName1').val().trim() || 'Kookaburra';
+        team[1].name = $('#teamName2').val().trim() || 'Balerion';
+        team[2].name = $('#teamName3').val().trim() || 'Orca';
+        team[3].name = $('#teamName4').val().trim() || 'Life of Pie';
+        $('.displayBox').removeClass('col-md-12').addClass('col-md-6');
+        $('#team').hide();
+        $('.checkWord, .scoreBoard, #GameOn').addClass('displayFlex');
+        gameInitialSetup();
+        //$('').addClass('displayFlex');
+    });
+
+    $('.nextButton').click(function () {
+        ++indexTrack;
+        gameInitialSetup();
+    });
+    function displayScore() {
+        $('.scoreBoard').html('');
+        for (var i = 0; i < playingTeam; i++) {
+            $('.scoreBoard').append('<div><span>' + team[i].symbol + '</span>' + team[i].name + ' - <span>' + team[i].score + '</span></div>')
+        }
+    }
+    if (indexTrack < list.length)
+        gameInitialSetup();
+
+    function gameInitialSetup() {
+        var i = index[indexTrack];
+        unhideUnavailableRow = [0, 1, 0, 0, 1]; //reset row tracker
+        //we have list[i]=["Testword","alpha","Morning","Try","Walk","sometext"]
+        $('.firstWord, .secondWord, .thirdWord, .fourthWord, .fifthWord, .lastWord').html('');
+        $('.secondWord, .thirdWord, .fourthWord, .fifthWord').addClass('unsolved');
+        for (var j = 0; j < list[i].length; j++) {
+            //console.log(list[i][j]);
+            var newStr = list[i][j].split(""); // A,m,a,z,o,n      T,e,s,t,w,o,r,d 
+            //console.log(newStr.length+"---");
+            for (var m = 0; m < maxWordLen; m++) {
+                switch (j) {
+                    case 0:
+                        (m >= newStr.length
+                            ? $('.firstWord').append('<td></td>')
+                            : $('.firstWord').append('<td>' + newStr[m] + '</td>'));
+                        break;
+                    case 1:
+                        (m >= newStr.length
+                            ? $('.secondWord').append('<td></td>')
+                            : $('.secondWord').append(m == 0 ? '<td class="unhide">' + newStr[m] + '</td>' : '<td>' + newStr[m] + '</td>'));
+                        $('.secondWord').attr({ 'len': newStr.length, 'word': list[i][j], 'index': 1 });
+                        break;
+                    case 2:
+                        (m >= newStr.length
+                            ? $('.thirdWord').append('<td></td>')
+                            : $('.thirdWord').append(m == 0 ? '<td class="unhide">' + newStr[m] + '</td>' : '<td>' + newStr[m] + '</td>'));
+                        $('.thirdWord').attr({ 'len': newStr.length, 'word': list[i][j], 'index': 2 });
+                        break;
+                    case 3:
+                        (m >= newStr.length
+                            ? $('.fourthWord').append('<td></td>')
+                            : $('.fourthWord').append(m == 0 ? '<td class="unhide">' + newStr[m] + '</td>' : '<td>' + newStr[m] + '</td>'));
+                        $('.fourthWord').attr({ 'len': newStr.length, 'word': list[i][j], 'index': 3 });
+                        break;
+                    case 4:
+                        (m >= newStr.length
+                            ? $('.fifthWord').append('<td></td>')
+                            : $('.fifthWord').append(m == 0 ? '<td class="unhide">' + newStr[m] + '</td>' : '<td>' + newStr[m] + '</td>'));
+                        $('.fifthWord').attr({ 'len': newStr.length, 'word': list[i][j], 'index': 4 });
+                        break;
+                    case 5:
+                        (m >= newStr.length
+                            ? $('.lastWord').append('<td></td>')
+                            : $('.lastWord').append('<td>' + newStr[m] + '</td>'));
+                        break;
+                }
+            }
+        }
+        //console.log(index);
+        displayScore();
+    }
+    function randomIndex(len) { //console.log(len);
+        var returnArr = [];
+        while (returnArr.length < len) {
+            var randNum = Math.floor(Math.random() * len);
+            if ($.inArray(randNum, returnArr) == -1)
+                returnArr.push(randNum);
+        }
+        return returnArr;
+    }
+
+
+
+    $('.checkWordBtn').click(function () {
+        var checkWord = $('#checkWord').val().trim().toUpperCase();
+        if (checkWord == $selectedRow.attr('word').toUpperCase()) {
+            //console.log($selectedRow);
+            $selectedRow.children('td').addClass('unhiddenCard').removeClass('lastBox');
+            $selectedRow.removeClass('unsolved');
+            var index = $selectedRow.attr('index');
+            unhideUnavailableRow[index] = 0;
+            (index == 1 || index == 2
+                ? unhideUnavailableRow[++index] = 1
+                : unhideUnavailableRow[--index] = 1);
+            console.log(unhideUnavailableRow);
+            $('#checkWord').val('');
+            if ($('.unsolved').length == 0)
+                fullChainForm();
+            //$selectedRow.siblings().next().
+        }
+        else {
+            $selectedRow.children('.lastBox').removeClass('lastBox').addClass('unhide wrongAnswer');
+        }
+
+    });
+    function fullChainForm() {
+
+    }
+    function enterKeyPressed(event) {
+        if (event.keyCode == 13) {
+            $('.checkWordBtn').trigger('click');
+            return true;
+        }
+    }
+
+</script>
