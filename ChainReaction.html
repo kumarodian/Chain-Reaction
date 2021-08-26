@@ -246,7 +246,7 @@
         background: linear-gradient(227deg, #00b0a8, #4273ff);
     }
 
-    .checkWord,
+    .controlPanel,
     .nextButton,
     .scoreBoard {
         display: flex;
@@ -268,29 +268,29 @@
         font-size: 24px;
     }
 
-    .checkWord input,
-    .checkWord button {
+    .controlPanel input,
+    .controlPanel button {
         width: 70%;
         padding: 8px 15px !important;
     }
 
-    .checkWord input:focus {
+    .controlPanel input:focus {
         outline: none;
     }
 
-    .checkWord button,
+    .controlPanel button,
     #startGameBtn button {
         background-color: #3f038d;
         text-transform: uppercase;
         outline: none;
     }
 
-    .checkWord button:active {
+    .controlPanel button:active {
         width: 68%;
 
     }
 
-    .checkWord input {
+    .controlPanel input {
         font-size: 19px;
         border-radius: 3px;
         border: none;
@@ -399,9 +399,10 @@
     .team2,
     .team3,
     .team4,
-    .checkWord,
+    .controlPanel,
     #GameOn,
-    .scoreBoard {
+    .scoreBoard,
+    #checkWordBox {
         display: none;
     }
 
@@ -421,6 +422,16 @@
         text-align: right;
         padding-right: 30px;
 
+    }
+
+    #teamTurn {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        background: #ffffff;
+        padding: 65px 0;
+        font-size: 20px;
+        border-radius: 10px;
     }
 </style>
 
@@ -457,13 +468,13 @@
                             </div>
                             <div id="teamName">
                                 <div class="input-group team1"><span>&#128038;</span><input class="form-control"
-                                        id="teamName1"/></div>
+                                        id="teamName1" /></div>
                                 <div class="input-group team2"><span>&#128009;</span><input class="form-control"
-                                        id="teamName2"/></div>
+                                        id="teamName2" /></div>
                                 <div class="input-group team3"><span>&#128011;</span><input class="form-control"
-                                        id="teamName3"/></div>
+                                        id="teamName3" /></div>
                                 <div class="input-group team4"><span>&#128008;</span><input class="form-control"
-                                        id="teamName4"/></div>
+                                        id="teamName4" /></div>
                                 <div id="startGameBtn">
                                     <button class="btn btn-primary">Start Game</button>
                                 </div>
@@ -472,10 +483,15 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3 checkWord">
-                <div><input id="checkWord" onkeypress="return enterKeyPressed(event)" /></div>
-                <br />
-                <div><button class="btn btn-primary checkWordBtn">Check</button></div>
+            <div class="col-md-3 controlPanel">
+                <div id="checkWordBox">
+                    <div><input id="checkWord" onkeypress="return enterKeyPressed(event)" /></div>
+                    <br />
+                    <div><button class="btn btn-primary checkWordBtn">Check</button></div>
+                </div>
+                <div id="teamTurn">
+
+                </div>
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
@@ -489,27 +505,33 @@
     var maxWordLen = 8;
     $selectedRow = $('.secondWord');
     var unhideUnavailableRow = [0, 1, 0, 0, 1];
-    const team = [{ name: "Kookaburra", symbol: "&#128038;", score: 0 },{ name: "Balerion", symbol: '&#128009;', score: 0 },{ name: "Orca", symbol: '&#128011;', score: 0 },{ name: "Life of Pie", symbol: '&#128008;', score: 0 }];
+    const team = [{ name: "Kookaburra", symbol: "&#128038;", score: 0 }, { name: "Balerion", symbol: '&#128009;', score: 0 }, { name: "Orca", symbol: '&#128011;', score: 0 }, { name: "Life of Pie", symbol: '&#128008;', score: 0 }];
     $('#teamName1').val(team[0].name);
     $('#teamName2').val(team[1].name);
     $('#teamName3').val(team[2].name);
     $('#teamName4').val(team[3].name);
     var playingTeam = 1;
+    var teamTurnIndex = 0;
 
     $(function () {
         $('.unsolved').click(function () {
-            $curr = $(this).children().siblings('.unhide');
-            $currClass = $(this);
-            var indexAttr = $currClass.attr('index'); //console.log($.inArray(index,unhideUnavailableRow));
-            if (unhideUnavailableRow[indexAttr] == 1) {
-                $selectedRow = $currClass;
-                //console.log($selectedRow); //console.log($currClass.children('.unhiddenCard').length);
-                if ($currClass.children('.unhiddenCard').length < ($currClass.attr('len') - 1)) {
-                    $curr.addClass("unhiddenCard").removeClass('unhide');
-                    $curr.next().addClass('unhide');
-                }
-                else {
-                    $curr.addClass('lastBox').removeClass('unhide');
+            if (!$('#checkWordBox').is(':visible')) {
+                $curr = $(this).children().siblings('.unhide');
+                $currClass = $(this);
+                var indexAttr = $currClass.attr('index'); //console.log($.inArray(index,unhideUnavailableRow));
+                if (unhideUnavailableRow[indexAttr] == 1) {
+                    $selectedRow = $currClass;
+                    //console.log($selectedRow); //console.log($currClass.children('.unhiddenCard').length);
+                    if ($currClass.children('.unhiddenCard').length < ($currClass.attr('len') - 1)) {
+                        $curr.addClass("unhiddenCard").removeClass('unhide');
+                        $curr.next().addClass('unhide');
+                    }
+                    else {
+                        $curr.addClass('lastBox').removeClass('unhide');
+                    }
+                    $('#teamTurn').hide();
+                    $('#checkWordBox').show();
+                    $('#checkWord').val('');
                 }
             }
         });
@@ -535,13 +557,14 @@
         team[3].name = $('#teamName4').val().trim() || 'Life of Pie';
         $('.displayBox').removeClass('col-md-12').addClass('col-md-6');
         $('#team').hide();
-        $('.checkWord, .scoreBoard, #GameOn, .nextButton').addClass('displayFlex');
+        $('.controlPanel, .scoreBoard, #GameOn, .nextButton').addClass('displayFlex');
         gameInitialSetup();
         //$('').addClass('displayFlex');
     });
 
     $('.nextButton').click(function () {
-        ++indexTrack;
+        if (indexTrack < list.length-1)
+            ++indexTrack;
         gameInitialSetup();
     });
     function displayScore() {
@@ -604,6 +627,13 @@
         }
         //console.log(index);
         displayScore();
+        teamTurn();
+    }
+
+    function teamTurn() {
+        $('#teamTurn').html('<div>' + team[teamTurnIndex].name + ',<br/> Select A Position</div>');
+        $('#teamTurn').show();
+        $('#checkWordBox').hide();
     }
     function randomIndex(len) { //console.log(len);
         var returnArr = [];
@@ -630,12 +660,26 @@
                 : unhideUnavailableRow[--index] = 1);
             console.log(unhideUnavailableRow);
             $('#checkWord').val('');
-            if ($('.unsolved').length == 0)
+            if ($('.unsolved').length == 0){
+                team[teamTurnIndex].score+= 20;
                 fullChainForm();
+            }
+            else{
+                team[teamTurnIndex].score+= 10;
+            }
+            displayScore();
+            teamTurn();
             //$selectedRow.siblings().next().
         }
         else {
             $selectedRow.children('.lastBox').removeClass('lastBox').addClass('unhide wrongAnswer');
+            if (playingTeam - teamTurnIndex == 1)
+                teamTurnIndex = 0;
+            else
+                teamTurnIndex++;
+            
+            teamTurn();
+            
         }
 
     });
