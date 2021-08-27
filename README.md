@@ -10,6 +10,11 @@ GAME
 TIME
 MACHINE
 
+## Game Screens
+![Select Team and add team names](https://github.com/kumarodian/Chain-Reaction/blob/master/images/Screen1.JPG)
+
+![Select Team and add team names](https://github.com/kumarodian/Chain-Reaction/blob/master/images/Screen2.JPG)
+
 ## Installation
 
 Download the ChainReaction.html file.
