@@ -97,12 +97,7 @@
         background-color: #5b5b5b;
     }
 
-    .displayBox,
-    .timerDisplay {
-        /* display: flex;
-        justify-content: center;
-        align-items: center;*/
-    }
+    
 
     .displayBox {
         background-color: rgba(255, 250, 206, 0.7);
@@ -300,7 +295,8 @@
     }
 
     .unhiddenCard {
-        background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(0, 176, 168)), to(rgb(66, 115, 255))) !important;
+        *background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(0, 176, 168)), to(rgb(66, 115, 255))) !important;
+        background: #00b0a8 !important;
         color: rgb(255, 255, 255) !important;
     }
 
@@ -331,24 +327,25 @@
     }
 
     @keyframes wrongAnswerAnimate {
-        0% {
-            -webkit-transform: rotate(0deg);
+
+        from,
+        to {
+            transform: translate3d(0, 0, 0);
         }
 
-        25% {
-            -webkit-transform: rotate(25deg);
+        10%,
+        30%,
+        50%,
+        70%,
+        90% {
+            transform: translate3d(-10px, 0, 0);
         }
 
-        50% {
-            -webkit-transform: rotate(-25deg);
-        }
-
-        75% {
-            -webkit-transform: rotate(0deg);
-        }
-
-        100% {
-            -webkit-transform: rotate(25deg);
+        20%,
+        40%,
+        60%,
+        80% {
+            transform: translate3d(10px, 0, 0);
         }
 
     }
@@ -432,6 +429,58 @@
         padding: 65px 0;
         font-size: 20px;
         border-radius: 10px;
+    }
+
+    .currentRow {
+        -webkit-animation: currentRowAnimate 2s ease infinite;
+        animation: currentRowAnimate 2s ease infinite;
+    }
+    .currentRow td{
+        *background: #00b0a8 !important;
+    }
+    @keyframes currentRowAnimate {
+        from {
+            transform: scale3d(1, 1, 1);
+        }
+
+        50% {
+            transform: scale3d(1.05, 1.05, 1.05);
+        }
+
+        to {
+            transform: scale3d(1, 1, 1);
+        }
+
+    }
+
+    @keyframes currentRowAnimate1 {
+        from {
+            transform: scale3d(1, 1, 1);
+        }
+
+        30% {
+            transform: scale3d(1.25, 0.75, 1);
+        }
+
+        40% {
+            transform: scale3d(0.75, 1.25, 1);
+        }
+
+        50% {
+            transform: scale3d(1.15, 0.85, 1);
+        }
+
+        65% {
+            transform: scale3d(0.95, 1.05, 1);
+        }
+
+        75% {
+            transform: scale3d(1.05, 0.95, 1);
+        }
+
+        to {
+            transform: scale3d(1, 1, 1);
+        }
     }
 </style>
 
@@ -532,6 +581,7 @@
                     $('#teamTurn').hide();
                     $('#checkWordBox').show();
                     $('#checkWord').val('');
+                    $currClass.addClass('currentRow');
                 }
             }
         });
@@ -563,7 +613,7 @@
     });
 
     $('.nextButton').click(function () {
-        if (indexTrack < list.length-1)
+        if (indexTrack < list.length - 1)
             ++indexTrack;
         gameInitialSetup();
     });
@@ -648,6 +698,7 @@
 
 
     $('.checkWordBtn').click(function () {
+        $currClass.removeClass('currentRow'); //remove animation
         var checkWord = $('#checkWord').val().trim().toUpperCase();
         if (checkWord == $selectedRow.attr('word').toUpperCase()) {
             //console.log($selectedRow);
@@ -660,26 +711,28 @@
                 : unhideUnavailableRow[--index] = 1);
             console.log(unhideUnavailableRow);
             $('#checkWord').val('');
-            if ($('.unsolved').length == 0){
-                team[teamTurnIndex].score+= 20;
+            if ($('.unsolved').length == 0) {
+                team[teamTurnIndex].score += 20;
                 fullChainForm();
             }
-            else{
-                team[teamTurnIndex].score+= 10;
+            else {
+                team[teamTurnIndex].score += 10;
             }
             displayScore();
             teamTurn();
             //$selectedRow.siblings().next().
         }
         else {
-            $selectedRow.children('.lastBox').removeClass('lastBox').addClass('unhide wrongAnswer');
+            $selectedRow.children('.lastBox').removeClass('lastBox').addClass('unhide');
+            $currClass.addClass('wrongAnswer');
+            setTimeout(function(){ $currClass.removeClass('wrongAnswer'); }, 2000);
             if (playingTeam - teamTurnIndex == 1)
                 teamTurnIndex = 0;
             else
                 teamTurnIndex++;
-            
+
             teamTurn();
-            
+
         }
 
     });
