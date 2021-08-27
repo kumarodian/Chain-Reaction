@@ -44,61 +44,6 @@
 
     }
 
-    .hindi,
-    .eng,
-    .prev {
-        font-size: 20px;
-        margin: 25px 0;
-        color: #ed088c;
-        font-weight: 500;
-        cursor: pointer;
-    }
-
-    .prev {
-        display: none;
-    }
-
-    .hindi span,
-    .eng span,
-    .prev span {
-        padding: 0 10px;
-    }
-
-    .timer {
-        font-size: 35px;
-
-    }
-
-    .arrow {
-        color: #d1d1d1;
-    }
-
-    .arrow:hover {
-        cursor: pointer;
-    }
-
-    .timerBtn {
-        padding: 5px 35px;
-        font-size: 20px;
-        border: none;
-        color: white;
-    }
-
-    .timerBtn span {
-        padding-right: 10px;
-    }
-
-    .start:hover {
-        color: white;
-        font-size: 21px;
-    }
-
-    .start {
-        background-color: #5b5b5b;
-    }
-
-    
-
     .displayBox {
         background-color: rgba(255, 250, 206, 0.7);
         background-image: repeating-linear-gradient(45deg, currentColor 0, currentColor 1px, transparent 0, transparent 50%);
@@ -107,105 +52,6 @@
 
     }
 
-    ​ .display {
-        color: #3f3f3f;
-    }
-
-    .display {
-        color: #686868 !important;
-        font-size: 25px;
-        font-weight: 600;
-        background-color: white;
-        padding: 15px;
-        border-radius: 20px;
-        box-shadow: -7px 7px 20px 0px #ed67081c;
-        border: 1px solid #ed670829;
-    }
-
-    .stop,
-    .stop:hover {
-        background-color: #c88c1f;
-        color: #ffffff;
-    }
-
-    .reset {
-        color: #3f3f3f;
-        border: 1px solid #343434;
-        padding: 5px 18px;
-        display: none;
-        background: #ffffff;
-    }
-
-    .btn-check:focus+.btn,
-    .btn:focus {
-        box-shadow: none;
-    }
-
-    .twisterOverlay {
-        /*  background: repeating-linear-gradient(45deg, transparent, transparent 0px, #b4b4b4 7px, #b4b4b4 calc(2 * 16px));
-        color: #b4b4b473 !important;
-        box-shadow: none !important;
-        border: none;*/
-
-        background: linear-gradient(217deg, #d5d5d5d9, #84848491);
-        color: #b8b8b81a !important;
-        box-shadow: -5px 5px 0px 0 #868686c7;
-        border: none;
-
-        /* background: linear-gradient(152deg, #ffdaa2d9, #ff8989b8);
-        color: #ffdaa22e !important;
-        box-shadow: none !important;
-        border: none;*/
-    }
-
-    .timerOverMsg {
-        font-size: 30px;
-        position: absolute;
-        display: none;
-        color: #fcf400;
-        padding: 10px;
-        border-radius: 10px;
-        /*width: 42%;*/
-        background: linear-gradient(30deg, #911d1d, #dd5a5a);
-        font-weight: 900;
-    }
-
-    @keyframes swing {
-
-        20%,
-        50%,
-        80%,
-        100% {
-            transform: translateY(0);
-        }
-
-        0% {
-            transform: translateY(-30px);
-        }
-
-        40% {
-            transform: translateY(-20px);
-        }
-
-        60% {
-            transform: translateY(-10px);
-        }
-    }
-
-    .displayEffect {
-        -webkit-animation: swing 1s ease;
-        animation: swing 1s ease;
-        -webkit-animation-iteration-count: 1;
-        animation-iteration-count: 1;
-    }
-
-    /*.info{
-        position: absolute;
-        bottom: 0;
-    }*/
-</style>
-
-<style>
     #GameOn {
         display: flex;
         flex-direction: row;
@@ -435,9 +281,11 @@
         -webkit-animation: currentRowAnimate 2s ease infinite;
         animation: currentRowAnimate 2s ease infinite;
     }
-    .currentRow td{
+
+    .currentRow td {
         *background: #00b0a8 !important;
     }
+
     @keyframes currentRowAnimate {
         from {
             transform: scale3d(1, 1, 1);
@@ -725,7 +573,7 @@
         else {
             $selectedRow.children('.lastBox').removeClass('lastBox').addClass('unhide');
             $currClass.addClass('wrongAnswer');
-            setTimeout(function(){ $currClass.removeClass('wrongAnswer'); }, 2000);
+            setTimeout(function () { $currClass.removeClass('wrongAnswer'); }, 2000);
             if (playingTeam - teamTurnIndex == 1)
                 teamTurnIndex = 0;
             else
