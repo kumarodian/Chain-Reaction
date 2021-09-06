@@ -10,7 +10,7 @@ GAME
 TIME
 MACHINE
 
-Demo here - https://z4u27.csb.app/ChainReaction.html
+Demo here -https://gdu3v.csb.app/ChainReaction.html
 
 ## Game Screens
 ![Select Team and add team names](https://github.com/kumarodian/Chain-Reaction/blob/master/images/Screen1.JPG)
