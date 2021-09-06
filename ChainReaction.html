@@ -330,6 +330,25 @@
             transform: scale3d(1, 1, 1);
         }
     }
+
+    .fullChainForm {
+        -webkit-animation: fullChainAnimate 2s ease;
+        animation: fullChainAnimate 2s ease;
+    }
+
+    @keyframes fullChainAnimate {
+        from {
+            transform: scale3d(1, 1, 1);
+        }
+
+        50% {
+            transform: scale3d(1.1, 1.1, 1.1);
+        }
+
+        to {
+            transform: scale3d(1, 1, 1);
+        }
+    }
 </style>
 
 <body>
@@ -396,8 +415,8 @@
             crossorigin="anonymous"></script>
 </body>
 <script>
-    var list = [["Amazon", "Try", "Walk", "sometext", "halt", "goon"], ["Testword", "alpha", "Morning", "Try", "Walk", "sometext"], ["Edvard", "volume", "attention", "works", "became", "effects"], ["Testword", "alpha", "Morning", "Try", "Walk", "sometext"], ["design", "August", "eggs", "Try", "Walk", "various"], ["Nevada", "news", "apple", "tree", "cars", "house"], ["hello", "roadside", "trying", "star", "cake", "moon"], ["test", "god", "rest", "home", "lion", "tiger"]];
-    var index = randomIndex(list.length);//console.log(list);console.log(index);
+    const list = [["Credit", "Check", "Please", "Hold", "Fast", "Food"], ["Cocoa", "Powder", "Blue", "Moon", "Landing", "Gear"], ["Freezing", "Cold", "Sweat", "Shirt", "Button", "Nose"], ["Crushed", "Ice", "Water", "Garden", "Party", "Animal"], ["Glass", "Bubble", "Bath", "Tub", "Stained", "Teeth"], ["Under", "Water", "Gun", "Down", "Town", "Hall"], ["Fire", "Fly", "Weight", "Training", "Day", "Dream"], ["Certain", "Death", "bed", "head", "Master", "Bathroom"],["simple", "life", "long", "hair", "raising", "money"],["bowling", "pin", "code", "red", "cross", "country"],["user", "friendly", "fire", "escape", "artist", "unknown"],["funky", "town", "square", "foot", "long", "weekend"],["hidden", "talent", "scout", "leader", "board", "meeting"],["nothing", "left", "turn", "around", "town", "house"],["street", "food", "chain", "reaction", "TIME", "CARD"],["MONKEY", "BUSINESS", "CLASS", "ROOM", "KEY", "CHAIN"],["CITY", "HALL", "PASS", "OUT", "COLD", "water"],["chain", "smoke", "signal", "booster", "seat", "belt"],["bouncing", "baby", "grand", "piano", "key", "chain"],["away", "game", "time", "travel", "light", "wave"],["child", "birth", "day", "after", "school", "shopping"],["remain", "active", "wear", "out", "cry", "baby"],["fence", "post", "master", "lock", "jaw", "bone"]];
+    var index = randomIndex(list.length);
     var indexTrack = 0;
     var maxWordLen = 8;
     $selectedRow = $('.secondWord');
@@ -415,21 +434,21 @@
             if (!$('#checkWordBox').is(':visible')) {
                 $curr = $(this).children().siblings('.unhide');
                 $currClass = $(this);
-                var indexAttr = $currClass.attr('index'); //console.log($.inArray(index,unhideUnavailableRow));
+                var indexAttr = $currClass.attr('index');
                 if (unhideUnavailableRow[indexAttr] == 1) {
                     $selectedRow = $currClass;
-                    //console.log($selectedRow); //console.log($currClass.children('.unhiddenCard').length);
                     if ($currClass.children('.unhiddenCard').length < ($currClass.attr('len') - 1)) {
                         $curr.addClass("unhiddenCard").removeClass('unhide');
                         $curr.next().addClass('unhide');
+                        $currClass.addClass('currentRow');
                     }
                     else {
                         $curr.addClass('lastBox').removeClass('unhide');
+                        $currClass.removeClass('currentRow');
                     }
                     $('#teamTurn').hide();
                     $('#checkWordBox').show();
                     $('#checkWord').val('');
-                    $currClass.addClass('currentRow');
                 }
             }
         });
@@ -457,7 +476,6 @@
         $('#team').hide();
         $('.controlPanel, .scoreBoard, #GameOn, .nextButton').addClass('displayFlex');
         gameInitialSetup();
-        //$('').addClass('displayFlex');
     });
 
     $('.nextButton').click(function () {
@@ -477,13 +495,10 @@
     function gameInitialSetup() {
         var i = index[indexTrack];
         unhideUnavailableRow = [0, 1, 0, 0, 1]; //reset row tracker
-        //we have list[i]=["Testword","alpha","Morning","Try","Walk","sometext"]
         $('.firstWord, .secondWord, .thirdWord, .fourthWord, .fifthWord, .lastWord').html('');
         $('.secondWord, .thirdWord, .fourthWord, .fifthWord').addClass('unsolved');
         for (var j = 0; j < list[i].length; j++) {
-            //console.log(list[i][j]);
-            var newStr = list[i][j].split(""); // A,m,a,z,o,n      T,e,s,t,w,o,r,d 
-            //console.log(newStr.length+"---");
+            var newStr = list[i][j].split("");
             for (var m = 0; m < maxWordLen; m++) {
                 switch (j) {
                     case 0:
@@ -523,7 +538,6 @@
                 }
             }
         }
-        //console.log(index);
         displayScore();
         teamTurn();
     }
@@ -533,7 +547,7 @@
         $('#teamTurn').show();
         $('#checkWordBox').hide();
     }
-    function randomIndex(len) { //console.log(len);
+    function randomIndex(len) {
         var returnArr = [];
         while (returnArr.length < len) {
             var randNum = Math.floor(Math.random() * len);
@@ -549,7 +563,6 @@
         $currClass.removeClass('currentRow'); //remove animation
         var checkWord = $('#checkWord').val().trim().toUpperCase();
         if (checkWord == $selectedRow.attr('word').toUpperCase()) {
-            //console.log($selectedRow);
             $selectedRow.children('td').addClass('unhiddenCard').removeClass('lastBox');
             $selectedRow.removeClass('unsolved');
             var index = $selectedRow.attr('index');
@@ -568,7 +581,6 @@
             }
             displayScore();
             teamTurn();
-            //$selectedRow.siblings().next().
         }
         else {
             $selectedRow.children('.lastBox').removeClass('lastBox').addClass('unhide');
