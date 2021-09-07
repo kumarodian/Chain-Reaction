@@ -75,7 +75,8 @@
 
     .firstWord td,
     .lastWord td {
-        background: #364485;
+        *background: #364485;
+        background: #565656;
     }
 
     .unsolved td {
@@ -259,6 +260,7 @@
         background: #ffffffbf;
         padding: 10px 20px;
         border-radius: 35px;
+        border: 2px solid #565656;
     }
 
     .scoreBoard {
@@ -415,18 +417,19 @@
             crossorigin="anonymous"></script>
 </body>
 <script>
-    const list = [["Credit", "Check", "Please", "Hold", "Fast", "Food"], ["Cocoa", "Powder", "Blue", "Moon", "Landing", "Gear"], ["Freezing", "Cold", "Sweat", "Shirt", "Button", "Nose"], ["Crushed", "Ice", "Water", "Garden", "Party", "Animal"], ["Glass", "Bubble", "Bath", "Tub", "Stained", "Teeth"], ["Under", "Water", "Gun", "Down", "Town", "Hall"], ["Fire", "Fly", "Weight", "Training", "Day", "Dream"], ["Certain", "Death", "bed", "head", "Master", "Bathroom"],["simple", "life", "long", "hair", "raising", "money"],["bowling", "pin", "code", "red", "cross", "country"],["user", "friendly", "fire", "escape", "artist", "unknown"],["funky", "town", "square", "foot", "long", "weekend"],["hidden", "talent", "scout", "leader", "board", "meeting"],["nothing", "left", "turn", "around", "town", "house"],["street", "food", "chain", "reaction", "TIME", "CARD"],["MONKEY", "BUSINESS", "CLASS", "ROOM", "KEY", "CHAIN"],["CITY", "HALL", "PASS", "OUT", "COLD", "water"],["chain", "smoke", "signal", "booster", "seat", "belt"],["bouncing", "baby", "grand", "piano", "key", "chain"],["away", "game", "time", "travel", "light", "wave"],["child", "birth", "day", "after", "school", "shopping"],["remain", "active", "wear", "out", "cry", "baby"],["fence", "post", "master", "lock", "jaw", "bone"]];
+    const list = [["Credit", "Check", "Please", "Hold", "Fast", "Food"], ["Cocoa", "Powder", "Blue", "Moon", "Landing", "Gear"], ["Freezing", "Cold", "Sweat", "Shirt", "Button", "Nose"], ["Crushed", "Ice", "Water", "Garden", "Party", "Animal"], ["Glass", "Bubble", "Bath", "Tub", "Stained", "Teeth"], ["Under", "Water", "Gun", "Down", "Town", "Hall"], ["Fire", "Fly", "Weight", "Training", "Day", "Dream"], ["Certain", "Death", "bed", "head", "Master", "Bathroom"], ["simple", "life", "long", "hair", "raising", "money"], ["bowling", "pin", "code", "red", "cross", "country"], ["user", "friendly", "fire", "escape", "artist", "unknown"], ["funky", "town", "square", "foot", "long", "weekend"], ["hidden", "talent", "scout", "leader", "board", "meeting"], ["nothing", "left", "turn", "around", "town", "house"], ["street", "food", "chain", "reaction", "TIME", "CARD"], ["MONKEY", "BUSINESS", "CLASS", "ROOM", "KEY", "CHAIN"], ["CITY", "HALL", "PASS", "OUT", "COLD", "water"], ["chain", "smoke", "signal", "booster", "seat", "belt"], ["bouncing", "baby", "grand", "piano", "key", "chain"], ["away", "game", "time", "travel", "light", "wave"], ["child", "birth", "day", "after", "school", "shopping"], ["remain", "active", "wear", "out", "cry", "baby"], ["fence", "post", "master", "lock", "jaw", "bone"]];
     var index = randomIndex(list.length);
     var indexTrack = 0;
     var maxWordLen = 8;
     $selectedRow = $('.secondWord');
     var unhideUnavailableRow = [0, 1, 0, 0, 1];
-    const team = [{ name: "Kookaburra", symbol: "&#128038;", score: 0 }, { name: "Balerion", symbol: '&#128009;', score: 0 }, { name: "Orca", symbol: '&#128011;', score: 0 }, { name: "Life of Pie", symbol: '&#128008;', score: 0 }];
+    const team = [{ name: "Kookaburra", symbol: "&#128038;", score: 0, color: '#ffdbd0' }, { name: "Balerion", symbol: '&#128009;', score: 0, color: '#d0ffd8' }, { name: "Orca", symbol: '&#128011;', score: 0, color: '#d0eeff' }, { name: "Life of Pie", symbol: '&#128008;', score: 0, color: '#f8ffd0' }];
+    const playingTeam = [];
     $('#teamName1').val(team[0].name);
     $('#teamName2').val(team[1].name);
     $('#teamName3').val(team[2].name);
     $('#teamName4').val(team[3].name);
-    var playingTeam = 1;
+    var playingTeamCount = 1;
     var teamTurnIndex = 0;
 
     $(function () {
@@ -455,7 +458,7 @@
     });
 
     $('input[type=radio][name=Team]').change(function () {
-        playingTeam = parseInt(this.value);
+        playingTeamCount = parseInt(this.value);
         switch (this.value) {
             case "4":
                 $('.team4, .team3, .team2, .team1').addClass('displayFlex'); break;
@@ -468,14 +471,17 @@
         }
     });
     $('#startGameBtn button').click(function () {
-        team[0].name = $('#teamName1').val().trim() || 'Kookaburra';
-        team[1].name = $('#teamName2').val().trim() || 'Balerion';
-        team[2].name = $('#teamName3').val().trim() || 'Orca';
-        team[3].name = $('#teamName4').val().trim() || 'Life of Pie';
+        for (var index = 0; index < playingTeamCount; index++) {
+            playingTeam.push(team[index]);
+            var tmp = '#teamName' + (index + 1);
+            playingTeam[index].name = $(tmp).val().trim() || team[index].name;
+        }
         $('.displayBox').removeClass('col-md-12').addClass('col-md-6');
         $('#team').hide();
         $('.controlPanel, .scoreBoard, #GameOn, .nextButton').addClass('displayFlex');
         gameInitialSetup();
+        displayScore();
+        teamTurn();
     });
 
     $('.nextButton').click(function () {
@@ -483,10 +489,21 @@
             ++indexTrack;
         gameInitialSetup();
     });
+    function addScore(index, score) {
+        for (var i = 0; i < playingTeam.length; i++) {
+            if (team[index].name == playingTeam[i].name) {
+                playingTeam[i].score += score;
+                break;
+            }
+        }
+    }
     function displayScore() {
         $('.scoreBoard').html('');
-        for (var i = 0; i < playingTeam; i++) {
-            $('.scoreBoard').append('<div><span>' + team[i].symbol + '</span>' + team[i].name + ' - <span>' + team[i].score + '</span></div>')
+        playingTeam.sort(function (a, b) {
+            return b.score - a.score;
+        });
+        for (var i = 0; i < playingTeamCount; i++) {
+            $('.scoreBoard').append('<div><span>' + playingTeam[i].symbol + '</span>' + playingTeam[i].name + ' - <span>' + playingTeam[i].score + '</span></div>')
         }
     }
     if (indexTrack < list.length)
@@ -538,12 +555,11 @@
                 }
             }
         }
-        displayScore();
-        teamTurn();
     }
 
     function teamTurn() {
-        $('#teamTurn').html('<div>' + team[teamTurnIndex].name + ',<br/> Select A Position</div>');
+        $('#teamTurn').html('<div><b>' + team[teamTurnIndex].name + '</b>,<br/> Select A Position</div>');
+        //$('.mainDisplay>.displayFlex, .mainDisplay>.displayBox').css({'background':playingTeam[teamTurnIndex].color});
         $('#teamTurn').show();
         $('#checkWordBox').hide();
     }
@@ -570,14 +586,13 @@
             (index == 1 || index == 2
                 ? unhideUnavailableRow[++index] = 1
                 : unhideUnavailableRow[--index] = 1);
-            console.log(unhideUnavailableRow);
             $('#checkWord').val('');
             if ($('.unsolved').length == 0) {
-                team[teamTurnIndex].score += 20;
+                addScore(teamTurnIndex, 20);
                 fullChainForm();
             }
             else {
-                team[teamTurnIndex].score += 10;
+                addScore(teamTurnIndex, 10);
             }
             displayScore();
             teamTurn();
@@ -586,7 +601,7 @@
             $selectedRow.children('.lastBox').removeClass('lastBox').addClass('unhide');
             $currClass.addClass('wrongAnswer');
             setTimeout(function () { $currClass.removeClass('wrongAnswer'); }, 2000);
-            if (playingTeam - teamTurnIndex == 1)
+            if (playingTeamCount - teamTurnIndex == 1)
                 teamTurnIndex = 0;
             else
                 teamTurnIndex++;
