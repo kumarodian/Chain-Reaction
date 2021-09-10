@@ -420,7 +420,7 @@
     const list = [["Credit", "Check", "Please", "Hold", "Fast", "Food"], ["Cocoa", "Powder", "Blue", "Moon", "Landing", "Gear"], ["Freezing", "Cold", "Sweat", "Shirt", "Button", "Nose"], ["Crushed", "Ice", "Water", "Garden", "Party", "Animal"], ["Glass", "Bubble", "Bath", "Tub", "Stained", "Teeth"], ["Under", "Water", "Gun", "Down", "Town", "Hall"], ["Fire", "Fly", "Weight", "Training", "Day", "Dream"], ["Certain", "Death", "bed", "head", "Master", "Bathroom"], ["simple", "life", "long", "hair", "raising", "money"], ["bowling", "pin", "code", "red", "cross", "country"], ["user", "friendly", "fire", "escape", "artist", "unknown"], ["funky", "town", "square", "foot", "long", "weekend"], ["hidden", "talent", "scout", "leader", "board", "meeting"], ["nothing", "left", "turn", "around", "town", "house"], ["street", "food", "chain", "reaction", "TIME", "CARD"], ["MONKEY", "BUSINESS", "CLASS", "ROOM", "KEY", "CHAIN"], ["CITY", "HALL", "PASS", "OUT", "COLD", "water"], ["chain", "smoke", "signal", "booster", "seat", "belt"], ["bouncing", "baby", "grand", "piano", "key", "chain"], ["away", "game", "time", "travel", "light", "wave"], ["child", "birth", "day", "after", "school", "shopping"], ["remain", "active", "wear", "out", "cry", "baby"], ["fence", "post", "master", "lock", "jaw", "bone"], ["dirty", "dish", "soap", "box", "spring", "break"], ["sweet", "tooth", "fairy", "dust", "cover", "letter"], ["essential", "oil", "field", "hockey", "team", "leader"], ["lemon", "grass", "stain", "proof", "read", "along"], ["authority", "figure", "head", "band", "member", "services"], ["forbidden", "fruit", "cocktail", "dress", "rehearsal", "dinner"], ["grand", "father", "time", "trial", "run", "around"], ["sliced", "bread", "pudding", "pop", "culture", "clash"], ["bullet", "train", "track", "team", "building", "block"], ["sea", "monster", "movie", "theater", "curtain", "call"]];
     var index = randomIndex(list.length);
     var indexTrack = 0;
-    var maxWordLen = 8;
+    var maxWordLen = 9;
     $selectedRow = $('.secondWord');
     var unhideUnavailableRow = [0, 1, 0, 0, 1];
     const team = [{ name: "Kookaburra", symbol: "&#128038;", score: 0, color: '#ffdbd0' }, { name: "Balerion", symbol: '&#128009;', score: 0, color: '#d0ffd8' }, { name: "Orca", symbol: '&#128011;', score: 0, color: '#d0eeff' }, { name: "Life of Pie", symbol: '&#128008;', score: 0, color: '#f8ffd0' }];
@@ -508,7 +508,26 @@
     }
     if (indexTrack < list.length)
         gameInitialSetup();
+    function generateRandomLetter() {
+        const alphabet = "abcdefghijklmnopqrstuvwxyz"
+        return alphabet[Math.floor(Math.random() * alphabet.length)]
+    }
 
+    function loopAlphabetStyle(className, currentIndex, word) {
+        $(className).append('<td></td>');
+        let timer = null;
+        let x = 0;
+        word = (word == undefined ? '': word);
+        timer = setInterval(() => {
+            $(className).children().eq(currentIndex).html(generateRandomLetter());
+            x++;
+            if (x >= maxWordLen) {
+                clearInterval(timer);
+                timer = null;
+                $(className).children().eq(currentIndex).html(word);
+            }
+        }, 130);
+    };
     function gameInitialSetup() {
         var i = index[indexTrack];
         unhideUnavailableRow = [0, 1, 0, 0, 1]; //reset row tracker
@@ -519,9 +538,7 @@
             for (var m = 0; m < maxWordLen; m++) {
                 switch (j) {
                     case 0:
-                        (m >= newStr.length
-                            ? $('.firstWord').append('<td></td>')
-                            : $('.firstWord').append('<td>' + newStr[m] + '</td>'));
+                        loopAlphabetStyle($('.firstWord'), m, newStr[m]);
                         break;
                     case 1:
                         (m >= newStr.length
@@ -548,9 +565,10 @@
                         $('.fifthWord').attr({ 'len': newStr.length, 'word': list[i][j], 'index': 4 });
                         break;
                     case 5:
-                        (m >= newStr.length
+                        loopAlphabetStyle($('.lastWord'), m, newStr[m]);
+                        /* (m >= newStr.length
                             ? $('.lastWord').append('<td></td>')
-                            : $('.lastWord').append('<td>' + newStr[m] + '</td>'));
+                            : $('.lastWord').append('<td>' + newStr[m] + '</td>')); */
                         break;
                 }
             }
