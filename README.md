@@ -13,14 +13,9 @@ MACHINE
 Demo here -https://gdu3v.csb.app/ChainReaction.html
 
 ## Game Screens
-![Select Team and add team names](https://github.com/kumarodian/Chain-Reaction/blob/master/images/Screen1.JPG)
+![Select Team and add team names](https://github.com/kumarodian/Chain-Reaction/blob/master/images/updatedThemeGreen1.JPG)
 
-![Select Team and add team names](https://github.com/kumarodian/Chain-Reaction/blob/master/images/Screen3.JPG)
-
-## Installation
-
-Download the ChainReaction.html file.
-Run and Enjoy the Game
+![Select Team and add team names](https://github.com/kumarodian/Chain-Reaction/blob/master/images/updatedThemeBlue2.JPG)
 
 ## How to play
 - Select number of teams playing
@@ -31,7 +26,7 @@ Run and Enjoy the Game
 - Each successful word guess fetches team 10 points. Last word in the chain gets team 20 points.
 - Scores are updated on each move by teams and shown on the left side.
 - On Word Chain completion, Click NEXT button on top.
-
+- Theme Toggle Option available at top right corner.
 
 *Note: There is NO Negative Scoring*
 
@@ -45,4 +40,4 @@ https://en.wikipedia.org/wiki/Chain_Reaction_(game_show)
 
 MIT
 
-**FREE TO USE, Hell Yeah!**
+**FREE TO USE**
