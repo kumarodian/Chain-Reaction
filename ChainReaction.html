@@ -6,415 +6,78 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/styleBlue.css" />
+    <link rel="stylesheet" href="css/styleGreen.css" />
 </head>
-<style>
-    body {
-        background-color: #e3e3e3;
-        user-select: none;
-    }
-
-    .header {
-        min-height: 60px;
-        text-align: center;
-        font-weight: bold;
-        background-color: #ffffff;
-        border-radius: 20px 20px 0 0;
-    }
-
-    .headerText {
-        font-size: 40px;
-        padding: 10px 0px;
-        color: #848484;
-        font-style: italic;
-    }
-
-    .mainDisplay {
-        text-align: center;
-    }
-
-    .mainDisplay>div {
-        border: 1px solid #ffffff;
-        min-height: 400px;
-        background: #9fc1ff;
-
-    }
-
-    .control {
-        padding: 100px 0px 0 0;
-
-    }
-
-    .displayBox {
-        background-color: rgba(255, 250, 206, 0.7);
-        background-image: repeating-linear-gradient(45deg, currentColor 0, currentColor 1px, transparent 0, transparent 50%);
-        background-size: 25px 25px;
-        color: white;
-
-    }
-
-    #GameOn {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-    }
-
-    table {
-        border-collapse: separate;
-        border-spacing: 4px 20px;
-    }
-
-    table td {
-        min-width: 50px;
-        height: 60px;
-        border: 1px solid #ffffff;
-        font-size: 35px;
-        font-family: monospace;
-        text-transform: uppercase;
-        cursor: pointer;
-    }
-
-    .firstWord td,
-    .lastWord td {
-        *background: #364485;
-        background: #565656;
-    }
-
-    .unsolved td {
-        background: radial-gradient(#c9c42f, #a69040);
-        color: transparent;
-    }
-
-    .solved td {
-        background: linear-gradient(227deg, #00b0a8, #4273ff);
-    }
-
-    .controlPanel,
-    .nextButton,
-    .scoreBoard {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .nextButton {
-        color: #a08c37;
-        font-size: 25px;
-        font-weight: 500;
-        cursor: pointer;
-        display: none;
-    }
-
-    .nextButton:active {
-        color: #725f0e;
-        text-shadow: 0 0 2px #cb3939;
-        font-size: 24px;
-    }
-
-    .controlPanel input,
-    .controlPanel button {
-        width: 70%;
-        padding: 8px 15px !important;
-    }
-
-    .controlPanel input:focus {
-        outline: none;
-    }
-
-    .controlPanel button,
-    #startGameBtn button {
-        background-color: #3f038d;
-        text-transform: uppercase;
-        outline: none;
-    }
-
-    .controlPanel button:active {
-        width: 68%;
-
-    }
-
-    .controlPanel input {
-        font-size: 19px;
-        border-radius: 3px;
-        border: none;
-        color: #0073aa;
-        text-transform: uppercase;
-        font-weight: bold;
-    }
-
-    .unhiddenCard {
-        *background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(0, 176, 168)), to(rgb(66, 115, 255))) !important;
-        background: #00b0a8 !important;
-        color: rgb(255, 255, 255) !important;
-    }
-
-    .lastBox {
-        background: linear-gradient(45deg, #da12ff, #ff3131) !important;
-        -webkit-animation: lastBoxAnimate 1s ease infinite;
-        animation: lastBoxAnimate 1s ease infinite;
-    }
-
-    @keyframes lastBoxAnimate {
-
-        0% {
-            -webkit-transform: scale(1);
-        }
-
-        50% {
-            -webkit-transform: scale(1.2);
-        }
-
-        100% {
-            -webkit-transform: scale(1);
-        }
-    }
-
-    .wrongAnswer {
-        -webkit-animation: wrongAnswerAnimate 1s ease;
-        animation: wrongAnswerAnimate 1s ease;
-    }
-
-    @keyframes wrongAnswerAnimate {
-
-        from,
-        to {
-            transform: translate3d(0, 0, 0);
-        }
-
-        10%,
-        30%,
-        50%,
-        70%,
-        90% {
-            transform: translate3d(-10px, 0, 0);
-        }
-
-        20%,
-        40%,
-        60%,
-        80% {
-            transform: translate3d(10px, 0, 0);
-        }
-
-    }
-
-    #team {
-        margin-top: 40px;
-    }
-
-    .teamMsg h2,
-    .teamSelect {
-        display: inline-block;
-    }
-
-    .teamSelect {
-        margin-left: 45px;
-    }
-
-    .teamSelect input {
-        height: 25px;
-        width: 25px;
-    }
-
-    .teamSelect label {
-        font-size: 30px;
-        margin-right: 30px;
-    }
-
-    #teamName,
-    #teamName #startGameBtn {
-        margin: 30px auto;
-    }
-
-    #teamName div {
-        width: 30%;
-        margin: 15px auto;
-    }
-
-    #teamName div>span {
-        font-size: 30px;
-        margin-right: 20px;
-    }
-
-    #startGameBtn button {
-        width: 79%;
-        margin-left: 60px;
-    }
-
-    .team2,
-    .team3,
-    .team4,
-    .controlPanel,
-    #GameOn,
-    .scoreBoard,
-    #checkWordBox {
-        display: none;
-    }
-
-    .displayFlex {
-        display: flex !important;
-    }
-
-    .scoreBoard div {
-        font-size: 16px;
-        margin: 20px 0;
-        background: #ffffffbf;
-        padding: 10px 20px;
-        border-radius: 35px;
-        border: 2px solid #565656;
-    }
-
-    .scoreBoard {
-        text-align: right;
-        padding-right: 30px;
-
-    }
-
-    #teamTurn {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        background: #ffffff;
-        padding: 65px 0;
-        font-size: 20px;
-        border-radius: 10px;
-    }
-
-    .currentRow {
-        -webkit-animation: currentRowAnimate 2s ease infinite;
-        animation: currentRowAnimate 2s ease infinite;
-    }
-
-    .currentRow td {
-        *background: #00b0a8 !important;
-    }
-
-    @keyframes currentRowAnimate {
-        from {
-            transform: scale3d(1, 1, 1);
-        }
-
-        50% {
-            transform: scale3d(1.05, 1.05, 1.05);
-        }
-
-        to {
-            transform: scale3d(1, 1, 1);
-        }
-
-    }
-
-    @keyframes currentRowAnimate1 {
-        from {
-            transform: scale3d(1, 1, 1);
-        }
-
-        30% {
-            transform: scale3d(1.25, 0.75, 1);
-        }
-
-        40% {
-            transform: scale3d(0.75, 1.25, 1);
-        }
-
-        50% {
-            transform: scale3d(1.15, 0.85, 1);
-        }
-
-        65% {
-            transform: scale3d(0.95, 1.05, 1);
-        }
-
-        75% {
-            transform: scale3d(1.05, 0.95, 1);
-        }
-
-        to {
-            transform: scale3d(1, 1, 1);
-        }
-    }
-
-    .fullChainForm {
-        -webkit-animation: fullChainAnimate 2s ease;
-        animation: fullChainAnimate 2s ease;
-    }
-
-    @keyframes fullChainAnimate {
-        from {
-            transform: scale3d(1, 1, 1);
-        }
-
-        50% {
-            transform: scale3d(1.1, 1.1, 1.1);
-        }
-
-        to {
-            transform: scale3d(1, 1, 1);
-        }
-    }
-</style>
 
 <body>
-    <div class="container">
-        <h3 class="headerText">Chain &#10233; Reaction</h3>
-        <div class="header row">
-            <div class="col-md-9 "></div>
-            <div class="col-md-3 nextButton">Next &#10154;</div>
-        </div>
-        <div class="row mainDisplay">
-            <div class="col-md-3 scoreBoard"></div>
-            <div class="col-md-12 displayBox">
-                <table id="GameOn">
-                    <tbody>
-                        <tr class="firstWord"></tr>
-                        <tr class="secondWord"></tr>
-                        <tr class="thirdWord"></tr>
-                        <tr class="fourthWord"></tr>
-                        <tr class="fifthWord"></tr>
-                        <tr class="lastWord"></tr>
-                    </tbody>
-                </table>
-                <div id="team">
-                    <div class="row">
-                        <div class="teamMsg">
-                            <h2>Teams playing : </h2>
-                            <div class="teamSelect">
-                                <input type="radio" id="team1" name="Team" value="1" checked><label
-                                    for="team1">1</label>
-                                <input type="radio" id="team2" name="Team" value="2"><label for="team2">2</label>
-                                <input type="radio" id="team3" name="Team" value="3"><label for="team3">3</label>
-                                <input type="radio" id="team4" name="Team" value="4"><label for="team4">4</label>
-                            </div>
-                            <div id="teamName">
-                                <div class="input-group team1"><span>&#128038;</span><input class="form-control"
-                                        id="teamName1" /></div>
-                                <div class="input-group team2"><span>&#128009;</span><input class="form-control"
-                                        id="teamName2" /></div>
-                                <div class="input-group team3"><span>&#128011;</span><input class="form-control"
-                                        id="teamName3" /></div>
-                                <div class="input-group team4"><span>&#128008;</span><input class="form-control"
-                                        id="teamName4" /></div>
-                                <div id="startGameBtn">
-                                    <button class="btn btn-primary">Start Game</button>
+    <main>
+        <section class="glass">
+            <div class="nextButton">Next &#10154;</div>
+            <div class="row mainDisplay">
+                <div class="col-md-3 scoreBoard"></div>
+                <div class="col-md-12 displayBox">
+                    <table id="GameOn">
+                        <tbody>
+                            <tr class="firstWord"></tr>
+                            <tr class="secondWord"></tr>
+                            <tr class="thirdWord"></tr>
+                            <tr class="fourthWord"></tr>
+                            <tr class="fifthWord"></tr>
+                            <tr class="lastWord"></tr>
+                        </tbody>
+                    </table>
+                    <div id="team">
+                        <div class="row">
+                            <div class="teamMsg">
+                                <h2>Teams playing : </h2>
+                                <div class="teamSelect">
+                                    <input type="radio" id="team1" name="Team" value="1" checked><label
+                                        for="team1">1</label>
+                                    <input type="radio" id="team2" name="Team" value="2"><label for="team2">2</label>
+                                    <input type="radio" id="team3" name="Team" value="3"><label for="team3">3</label>
+                                    <input type="radio" id="team4" name="Team" value="4"><label for="team4">4</label>
+                                </div>
+                                <div id="teamName">
+                                    <div class="input-group team1"><span>&#128038;</span><input class="form-control"
+                                            id="teamName1" /></div>
+                                    <div class="input-group team2"><span>&#128009;</span><input class="form-control"
+                                            id="teamName2" /></div>
+                                    <div class="input-group team3"><span>&#128011;</span><input class="form-control"
+                                            id="teamName3" /></div>
+                                    <div class="input-group team4"><span>&#128008;</span><input class="form-control"
+                                            id="teamName4" /></div>
+                                    <div id="startGameBtn">
+                                        <button class="btn btn-primary">Start Game</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3 controlPanel">
-                <div id="checkWordBox">
-                    <div><input id="checkWord" onkeypress="return enterKeyPressed(event)" /></div>
-                    <br />
-                    <div><button class="btn btn-primary checkWordBtn">Check</button></div>
-                </div>
-                <div id="teamTurn">
+                <div class="col-md-3 controlPanel">
+                    <div id="checkWordBox">
+                        <div><input id="checkWord" onkeypress="return enterKeyPressed(event)" /></div>
+                        <br />
+                        <div><button class="btn btn-primary checkWordBtn">Check</button></div>
+                    </div>
+                    <div id="teamTurn">
 
+                    </div>
                 </div>
             </div>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-            crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+                crossorigin="anonymous"></script>
+        </section>
+    </main>
+    <label class="switch"> 
+        <input type="checkbox">
+        <span class="slider round"></span>
+    </label>
+    <div class="circle1"></div>
+    <div class="circle2"></div>
 </body>
 <script>
     const list = [["Credit", "Check", "Please", "Hold", "Fast", "Food"], ["Cocoa", "Powder", "Blue", "Moon", "Landing", "Gear"], ["Freezing", "Cold", "Sweat", "Shirt", "Button", "Nose"], ["Crushed", "Ice", "Water", "Garden", "Party", "Animal"], ["Glass", "Bubble", "Bath", "Tub", "Stained", "Teeth"], ["Under", "Water", "Gun", "Down", "Town", "Hall"], ["Fire", "Fly", "Weight", "Training", "Day", "Dream"], ["Certain", "Death", "bed", "head", "Master", "Bathroom"], ["simple", "life", "long", "hair", "raising", "money"], ["bowling", "pin", "code", "red", "cross", "country"], ["user", "friendly", "fire", "escape", "artist", "unknown"], ["funky", "town", "square", "foot", "long", "weekend"], ["hidden", "talent", "scout", "leader", "board", "meeting"], ["nothing", "left", "turn", "around", "town", "house"], ["street", "food", "chain", "reaction", "TIME", "CARD"], ["MONKEY", "BUSINESS", "CLASS", "ROOM", "KEY", "CHAIN"], ["CITY", "HALL", "PASS", "OUT", "COLD", "water"], ["chain", "smoke", "signal", "booster", "seat", "belt"], ["bouncing", "baby", "grand", "piano", "key", "chain"], ["away", "game", "time", "travel", "light", "wave"], ["child", "birth", "day", "after", "school", "shopping"], ["remain", "active", "wear", "out", "cry", "baby"], ["fence", "post", "master", "lock", "jaw", "bone"], ["dirty", "dish", "soap", "box", "spring", "break"], ["sweet", "tooth", "fairy", "dust", "cover", "letter"], ["essential", "oil", "field", "hockey", "team", "leader"], ["lemon", "grass", "stain", "proof", "read", "along"], ["authority", "figure", "head", "band", "member", "services"], ["forbidden", "fruit", "cocktail", "dress", "rehearsal", "dinner"], ["grand", "father", "time", "trial", "run", "around"], ["sliced", "bread", "pudding", "pop", "culture", "clash"], ["bullet", "train", "track", "team", "building", "block"], ["sea", "monster", "movie", "theater", "curtain", "call"]];
@@ -431,7 +94,7 @@
     $('#teamName4').val(team[3].name);
     var playingTeamCount = 1;
     var teamTurnIndex = 0;
-
+   
     $(function () {
         $('.unsolved').click(function () {
             if (!$('#checkWordBox').is(':visible')) {
@@ -517,7 +180,7 @@
         $(className).append('<td></td>');
         let timer = null;
         let x = 0;
-        word = (word == undefined ? '': word);
+        word = (word == undefined ? '' : word);
         timer = setInterval(() => {
             $(className).children().eq(currentIndex).html(generateRandomLetter());
             x++;
@@ -532,7 +195,7 @@
         var i = index[indexTrack];
         unhideUnavailableRow = [0, 1, 0, 0, 1]; //reset row tracker
         $('.firstWord, .secondWord, .thirdWord, .fourthWord, .fifthWord, .lastWord').html('');
-        $('.secondWord, .thirdWord, .fourthWord, .fifthWord').addClass('unsolved');
+        $('.secondWord, .thirdWord, .fourthWord, .fifthWord').addClass('unsolved').removeClass('currentRow');
         for (var j = 0; j < list[i].length; j++) {
             var newStr = list[i][j].split("");
             for (var m = 0; m < maxWordLen; m++) {
@@ -627,7 +290,6 @@
             teamTurn();
 
         }
-
     });
     function fullChainForm() {
 
@@ -638,5 +300,15 @@
             return true;
         }
     }
+    $(".switch input").click(function(){ //color theme changer
+        if($('.switch input').is(':checked')){
+           $('body').addClass('blue');
+           //$('.slider').before().css({'background-color':'#65dfc9'});
+        }
+        else{
+            $('body').removeClass('blue');
+            //$('.slider').before().css({'background-color':'#ffc487'});
+        }
+    });
 
 </script>
