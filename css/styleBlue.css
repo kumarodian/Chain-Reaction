@@ -1,0 +1,58 @@
+.blue main {
+    background: #03062A;
+}
+
+.blue .displayBox {
+    color: #ffffffd9;
+}
+
+.blue .firstWord td,.blue  .lastWord td {
+    color: white;
+    background: linear-gradient(45deg, #565656a6, #565656a6);
+}
+
+.blue .unsolved td {
+    background: linear-gradient(39deg, #3339ca9e, #69c1fdc4);
+    color: transparent;
+}
+
+.blue .nextButton {
+    color: #ffffffd9;
+}
+
+.blue .controlPanel button,.blue  #startGameBtn button {
+    background: #353bcce0;
+}
+
+.blue .unhiddenCard {
+    background: #343acbc2 !important;
+}
+
+.blue .scoreBoard div {
+    background: linear-gradient(45deg, #64bdfd0a, #6bc2fd1a);
+    box-shadow: -4px -2px 11px 0px #ffffff, 3px 4px 11px 0px #6e6e6e;
+    color: #3137c9;
+    font-weight: bold;
+}
+
+.blue #teamTurn {
+    color: #3339cbd6;
+}
+
+.blue .circle1,.blue  .circle2 {
+    background: white;
+    height: 15rem;
+    width: 15rem;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.blue .circle1 {
+    background: linear-gradient(to right bottom, #4ab5fe, #79c7fc);
+    box-shadow: inset -1px -1px 6px white;
+}
+
+.blue .circle2 {
+    background: linear-gradient(to right bottom, #282ec1, #494fdd);
+    box-shadow: inset -1px -1px 6px white;
+}

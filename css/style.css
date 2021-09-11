@@ -1,0 +1,426 @@
+main {
+    font-family: "Poppins", sans-serif;
+    min-height: 100vh;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.glass {
+    background: white;
+    width: 70%;
+    min-height: 80vh;
+    border-radius: 20px;
+    background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.3));
+    z-index: 2;
+    backdrop-filter: blur(2rem);
+}
+
+.circle1, .circle2 {
+    background: white;
+    height: 15rem;
+    width: 15rem;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.circle1 {
+    top: 5%;
+    right: 10%;
+    height: 20rem;
+    width: 20rem;
+    animation: animateCircle1 30s ease infinite;
+}
+
+@keyframes animateCircle1 {
+    from {
+        transform: translate(0%, 0%);
+    }
+    25% {
+        transform: translate(-50%, 30%);
+    }
+    50% {
+        transform: translate(-40%, 60%);
+    }
+    75% {
+        transform: translate(10%, 40%);
+    }
+    to {
+        transform: translate(0%, 0%);
+    }
+}
+
+.circle2 {
+    bottom: 5%;
+    left: 10%;
+    animation: animateCircle2 20s ease infinite;
+}
+
+@keyframes animateCircle2 {
+    from {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(-10px, -40px);
+    }
+    50% {
+        transform: translate(-5px, -60px);
+    }
+    75% {
+        transform: translate(-3px, -30px);
+    }
+    to {
+        transform: translate(0, 0);
+    }
+}
+
+.mainDisplay {
+    text-align: center;
+    margin: 0;
+    min-height: 80vh;
+}
+
+.scoreBoard {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    background: linear-gradient(to right bottom, rgb(103 222 209 / 0%), rgb(255 255 255 / 41%));
+    border-radius: 0 20px 20px 0;
+}
+
+.control {
+    padding: 100px 0px 0 0;
+}
+
+.displayBox {
+    background-size: 25px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#GameOn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 4px 20px;
+}
+
+table td {
+    min-width: 50px;
+    height: 60px;
+    border: 1px solid #ffffff;
+    font-size: 35px;
+    font-family: monospace;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.unsolved td {
+    color: transparent;
+}
+
+.solved td {
+    background: linear-gradient(227deg, #00b0a8, #4273ff);
+}
+
+.controlPanel, .nextButton, .scoreBoard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.nextButton {
+    font-weight: 600;
+    font-size: 2rem;
+    opacity: 0.8;
+    cursor: pointer;
+    display: none;
+    position: absolute;
+    right: 10px;
+}
+
+.nextButton:active {
+    font-size: 1.9rem;
+}
+
+.controlPanel input, .controlPanel button {
+    width: 70%;
+    padding: 8px 15px !important;
+}
+
+.controlPanel input:focus {
+    outline: none;
+}
+
+.controlPanel button, #startGameBtn button {
+    text-transform: uppercase;
+    outline: none;
+    border: none;
+}
+
+.controlPanel button:active {
+    width: 68%;
+}
+
+.controlPanel input {
+    font-size: 19px;
+    border-radius: 3px;
+    border: none;
+    color: #0073aa;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.unhiddenCard {
+    color: rgb(255, 255, 255) !important;
+}
+
+.lastBox {
+    background: linear-gradient(45deg, #da12ff, #ff3131) !important;
+    -webkit-animation: lastBoxAnimate 1s ease infinite;
+    animation: lastBoxAnimate 1s ease infinite;
+}
+
+@keyframes lastBoxAnimate {
+    0% {
+        -webkit-transform: scale(1);
+    }
+    50% {
+        -webkit-transform: scale(1.2);
+    }
+    100% {
+        -webkit-transform: scale(1);
+    }
+}
+
+.wrongAnswer {
+    -webkit-animation: wrongAnswerAnimate 1s ease;
+    animation: wrongAnswerAnimate 1s ease;
+}
+
+@keyframes wrongAnswerAnimate {
+    from, to {
+        transform: translate3d(0, 0, 0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translate3d(-10px, 0, 0);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translate3d(10px, 0, 0);
+    }
+}
+
+#team {
+    margin-top: 40px;
+}
+
+.teamMsg h2, .teamSelect {
+    display: inline-block;
+}
+
+.teamSelect {
+    margin-left: 45px;
+}
+
+.teamSelect input {
+    height: 25px;
+    width: 25px;
+}
+
+.teamSelect label {
+    font-size: 30px;
+    margin-right: 30px;
+    margin-left: 5px;
+}
+
+#teamName, #teamName #startGameBtn {
+    margin: 30px auto;
+}
+
+div#teamName input {
+    border-radius: 25px;
+}
+
+#teamName div {
+    width: 70%;
+    margin: 15px auto;
+}
+
+#teamName div>span {
+    font-size: 30px;
+    margin-right: 20px;
+}
+
+#startGameBtn button {
+    width: 79%;
+    margin-left: 60px;
+}
+
+.team2, .team3, .team4, .controlPanel, #GameOn, .scoreBoard, #checkWordBox {
+    display: none;
+}
+
+.displayFlex {
+    display: flex !important;
+}
+
+.scoreBoard div {
+    font-size: 16px;
+    margin: 20px 0;
+    padding: 10px 20px;
+    border-radius: 35px;
+    width: fit-content;
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
+.scoreBoard {
+    text-align: right;
+    padding-right: 30px;
+}
+
+.scoreBoard div span {
+    margin-right: 5px;
+}
+
+#teamTurn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background: linear-gradient(to left top, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5));
+    padding: 65px 0;
+    font-size: 20px;
+    border-radius: 10px;
+    text-transform: capitalize;
+}
+
+.currentRow {
+    -webkit-animation: currentRowAnimate 2s ease infinite;
+    animation: currentRowAnimate 2s ease infinite;
+}
+
+.currentRow td {
+    *background: #00b0a8 !important;
+}
+
+@keyframes currentRowAnimate {
+    from {
+        transform: scale3d(1, 1, 1);
+    }
+    50% {
+        transform: scale3d(1.05, 1.05, 1.05);
+    }
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes currentRowAnimate1 {
+    from {
+        transform: scale3d(1, 1, 1);
+    }
+    30% {
+        transform: scale3d(1.25, 0.75, 1);
+    }
+    40% {
+        transform: scale3d(0.75, 1.25, 1);
+    }
+    50% {
+        transform: scale3d(1.15, 0.85, 1);
+    }
+    65% {
+        transform: scale3d(0.95, 1.05, 1);
+    }
+    75% {
+        transform: scale3d(1.05, 0.95, 1);
+    }
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+.fullChainForm {
+    -webkit-animation: fullChainAnimate 2s ease;
+    animation: fullChainAnimate 2s ease;
+}
+
+@keyframes fullChainAnimate {
+    from {
+        transform: scale3d(1, 1, 1);
+    }
+    50% {
+        transform: scale3d(1.1, 1.1, 1.1);
+    }
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+.switch {
+    position: absolute;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    right: 5px;
+    top: 5px;
+  }
+  
+  .switch input { 
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #03062a;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: #ffc487;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #3caea9;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
