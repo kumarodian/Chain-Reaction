@@ -4,6 +4,9 @@ main {
 .displayBox {
     color: #426696;
 }
+svg path {
+    stroke: #008175;
+}
 .firstWord td,
 .lastWord td {
     background: #658ec69c;

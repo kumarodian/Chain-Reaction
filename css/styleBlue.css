@@ -5,7 +5,9 @@
 .blue .displayBox {
     color: #ffffffd9;
 }
-
+.blue svg path {
+    stroke: white;
+}
 .blue .firstWord td,.blue  .lastWord td {
     color: white;
     background: linear-gradient(45deg, #565656a6, #565656a6);
@@ -32,7 +34,6 @@
     background: linear-gradient(45deg, #64bdfd0a, #6bc2fd1a);
     box-shadow: -4px -2px 11px 0px #ffffff, 3px 4px 11px 0px #6e6e6e;
     color: #3137c9;
-    font-weight: bold;
 }
 
 .blue #teamTurn {
