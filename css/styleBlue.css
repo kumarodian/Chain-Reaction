@@ -21,7 +21,9 @@
 .blue .nextButton {
     color: #ffffffd9;
 }
-
+.blue .endGame {
+    color: #ffffff;
+}
 .blue .controlPanel button,.blue  #startGameBtn button {
     background: #353bcce0;
 }
@@ -56,4 +58,10 @@
 .blue .circle2 {
     background: linear-gradient(to right bottom, #282ec1, #494fdd);
     box-shadow: inset -1px -1px 6px white;
+}
+.blue .helpButton{
+    color: #ffffff;
+}
+.blue .availableRow .unhide{
+    background: #0b0f72;
 }

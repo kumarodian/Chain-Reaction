@@ -7,8 +7,7 @@ main {
 svg path {
     stroke: #008175;
 }
-.firstWord td,
-.lastWord td {
+.firstWord td, .lastWord td {
     background: #658ec69c;
     color: #426696;
 }
@@ -18,8 +17,12 @@ svg path {
 .nextButton {
     color: #426696;
 }
-.controlPanel button,
-#startGameBtn button {
+
+.endGame {
+    color: #454545;
+}
+
+.controlPanel button, #startGameBtn button {
     background: linear-gradient(45deg, #426696, #428696);
 }
 .unhiddenCard {
@@ -33,9 +36,11 @@ svg path {
 #teamTurn {
     color: #658ec6;
 }
-.circle1,
-.circle2 {
-    background: linear-gradient(to right bottom,
-    rgba(255, 255, 255, 0.8),
-    rgba(255, 255, 255, 0.3));
+
+.circle1, .circle2 {
+    background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3));
+}
+
+.availableRow .unhide {
+    background: #0c7181;
 }

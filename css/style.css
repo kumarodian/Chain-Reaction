@@ -7,6 +7,28 @@ main {
     justify-content: center;
 }
 
+#help {
+    position: absolute;
+    right: 74px;
+    top: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #03062a;
+    background: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    font-weight: bold;
+}
+
+.helpButton {
+    color: #414141;
+    text-decoration: underline;
+    cursor: pointer;
+    width: fit-content;
+}
+
 .intro {
     z-index: 3;
 }
@@ -89,8 +111,36 @@ main {
     animation: intro-anim 2s ease forwards 0.8s;
 }
 
-@keyframes intro-anim{
-    to{
+@keyframes swing {
+    from, to, 50% {
+        transform: translateY(0px);
+    }
+    25% {
+        transform: translateY(-5px);
+    }
+    75% {
+        transform: translateY(5px);
+    }
+}
+
+.availableRow .unhide {
+    animation: availableAlphabet 1s linear infinite;
+}
+
+@keyframes availableAlphabet {
+    from {
+        transform: scale3d(1, 1, 1);
+    }
+    50% {
+        transform: scale3d(1.15, 1.15, 1.15);
+    }
+    to {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes intro-anim {
+    to {
         stroke-dashoffset: 0;
     }
 }
@@ -187,7 +237,6 @@ main {
 .displayBox {
     background-size: 25px 25px;
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
@@ -234,6 +283,16 @@ table td {
     display: none;
     position: absolute;
     right: 10px;
+}
+
+.endGame {
+    cursor: pointer;
+    display: none;
+    opacity: 0.8;
+    position: absolute;
+    right: 15px;
+    bottom: 5px;
+    font-size: 18px;
 }
 
 .nextButton:active {
@@ -364,7 +423,7 @@ div#teamName input {
 .scoreBoard div {
     font-size: 16px;
     margin: 20px 0;
-    padding: 10px 20px;
+    padding: 10px;
     border-radius: 35px;
     width: fit-content;
     text-transform: capitalize;
@@ -373,7 +432,6 @@ div#teamName input {
 
 .scoreBoard {
     text-align: right;
-    padding-right: 30px;
 }
 
 .scoreBoard div span {
@@ -391,6 +449,18 @@ div#teamName input {
     text-transform: capitalize;
 }
 
+#checkWordBox div:nth-child(1) {
+    margin-bottom: 20px;
+    color: #606060;
+    font-weight: bold;
+}
+
+#teamGuessWord {
+    text-transform: capitalize;
+    color: #446897;
+    font-size: 18px;
+}
+
 .currentRow {
     -webkit-animation: currentRowAnimate 2s ease infinite;
     animation: currentRowAnimate 2s ease infinite;
@@ -406,30 +476,6 @@ div#teamName input {
     }
     50% {
         transform: scale3d(1.05, 1.05, 1.05);
-    }
-    to {
-        transform: scale3d(1, 1, 1);
-    }
-}
-
-@keyframes currentRowAnimate1 {
-    from {
-        transform: scale3d(1, 1, 1);
-    }
-    30% {
-        transform: scale3d(1.25, 0.75, 1);
-    }
-    40% {
-        transform: scale3d(0.75, 1.25, 1);
-    }
-    50% {
-        transform: scale3d(1.15, 0.85, 1);
-    }
-    65% {
-        transform: scale3d(0.95, 1.05, 1);
-    }
-    75% {
-        transform: scale3d(1.05, 0.95, 1);
     }
     to {
         transform: scale3d(1, 1, 1);
