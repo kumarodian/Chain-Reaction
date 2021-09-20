@@ -143,7 +143,7 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="endGame">End Game</div> -->
+            <div class="endGame">End Game</div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
                 crossorigin="anonymous"></script>
@@ -156,7 +156,7 @@
     <div id="help" title="How to play game">?</div>
     <div class="circle1"></div>
     <div class="circle2"></div>
-    <!-- Modal -->
+    <!-- Modal - Show Game Help-->
     <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="helpModalTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -168,7 +168,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <!--  <p>This is word Chain game. Can be played individually or in team. </p> -->
                     <p>Select number of teams playing. Set each team's name or use default given.</p>
                     <p>Teams need to complete the word chain by guessing words in it. On your turn, you are asked to
                         unreveal a letter of the adjacent word to first or last word. </p>
@@ -183,23 +182,51 @@
             </div>
         </div>
     </div>
+    <!-- Modal - LeaderBoard-->
+    <div class="modal fade" id="leaderboard" tabindex="-1" role="dialog" aria-labelledby="leaderboardTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Leader Board - Top Teams</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body table-responsive">
+                    None
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="leaderboardIcon">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img"
+            width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
+            <path d="M7.5 21H2V9h5.5v12zm7.25-18h-5.5v18h5.5V3zM22 11h-5.5v10H22V11z" fill="currentColor" />
+        </svg>
+    </div>
 </body>
 <script>
     const list = [["Credit", "Check", "Please", "Hold", "Fast", "Food"], ["Cocoa", "Powder", "Blue", "Moon", "Landing", "Gear"], ["Freezing", "Cold", "Sweat", "Shirt", "Button", "Nose"], ["Crushed", "Ice", "Water", "Garden", "Party", "Animal"], ["Glass", "Bubble", "Bath", "Tub", "Stained", "Teeth"], ["Under", "Water", "Gun", "Down", "Town", "Hall"], ["Fire", "Fly", "Weight", "Training", "Day", "Dream"], ["Certain", "Death", "bed", "head", "Master", "Bathroom"], ["simple", "life", "long", "hair", "raising", "money"], ["bowling", "pin", "code", "red", "cross", "country"], ["user", "friendly", "fire", "escape", "artist", "unknown"], ["funky", "town", "square", "foot", "long", "weekend"], ["hidden", "talent", "scout", "leader", "board", "meeting"], ["nothing", "left", "turn", "around", "town", "house"], ["street", "food", "chain", "reaction", "TIME", "CARD"], ["MONKEY", "BUSINESS", "CLASS", "ROOM", "KEY", "CHAIN"], ["CITY", "HALL", "PASS", "OUT", "COLD", "water"], ["chain", "smoke", "signal", "booster", "seat", "belt"], ["bouncing", "baby", "grand", "piano", "key", "chain"], ["away", "game", "time", "travel", "light", "wave"], ["child", "birth", "day", "after", "school", "shopping"], ["remain", "active", "wear", "out", "cry", "baby"], ["fence", "post", "master", "lock", "jaw", "bone"], ["dirty", "dish", "soap", "box", "spring", "break"], ["sweet", "tooth", "fairy", "dust", "cover", "letter"], ["essential", "oil", "field", "hockey", "team", "leader"], ["lemon", "grass", "stain", "proof", "read", "along"], ["authority", "figure", "head", "band", "member", "services"], ["forbidden", "fruit", "cocktail", "dress", "rehearsal", "dinner"], ["grand", "father", "time", "trial", "run", "around"], ["sliced", "bread", "pudding", "pop", "culture", "clash"], ["bullet", "train", "track", "team", "building", "block"], ["sea", "monster", "movie", "theater", "curtain", "call"]];
-    var index = randomIndex(list.length);
-    var indexTrack = 0;
-    var maxWordLen = 9;
-    $selectedRow = $('.secondWord');
-    var unhideUnavailableRow = [0, 1, 0, 0, 1];
-    const team = [{ name: "Kookaburra", symbol: "&#128038;", score: 0, color: '#ffdbd0' }, { name: "Balerion", symbol: '&#128009;', score: 0, color: '#d0ffd8' }, { name: "Orca", symbol: '&#128011;', score: 0, color: '#d0eeff' }, { name: "Life of Pie", symbol: '&#128008;', score: 0, color: '#f8ffd0' }];
-    const playingTeam = [];
-    $('#teamName1').val(team[0].name);
-    $('#teamName2').val(team[1].name);
-    $('#teamName3').val(team[2].name);
-    $('#teamName4').val(team[3].name);
-    var playingTeamCount = 1;
-    var teamTurnIndex = 0;
-
+    var index, indexTrack, maxWordLen, maxWordLen, unhideUnavailableRow, playingTeamCount = 1, teamTurnIndex, team, playingTeam;
+    initialValue();
+    function initialValue() {
+        index = randomIndex(list.length);
+        indexTrack = 0;
+        maxWordLen = 9;
+        $selectedRow = $('.secondWord');
+        unhideUnavailableRow = [0, 1, 0, 0, 1];
+        team = [{ name: "Kookaburra", symbol: "&#128038;", score: 0, color: '#ffdbd0' }, { name: "Balerion", symbol: '&#128009;', score: 0, color: '#d0ffd8' }, { name: "Orca", symbol: '&#128011;', score: 0, color: '#d0eeff' }, { name: "Life of Pie", symbol: '&#128008;', score: 0, color: '#f8ffd0' }];
+        playingTeam = [];
+        $('#teamName1').val(team[0].name);
+        $('#teamName2').val(team[1].name);
+        $('#teamName3').val(team[2].name);
+        $('#teamName4').val(team[3].name);
+        teamTurnIndex = 0;
+    }
     $(function () {
         setTimeout(() => { // Hide Intro message and Show Team Select
             $('#introText').fadeOut(100);
@@ -349,6 +376,7 @@
                 }
             }
         }
+        animAvailableRow('add');
     }
 
     function teamTurn() {
@@ -374,17 +402,14 @@
         }
         return returnArr;
     }
-
-
-
     $('.checkWordBtn').click(function () {
         if ($('#checkWord').val().trim().length) {
             $currClass.removeClass('currentRow'); //remove animation
             var checkWord = $('#checkWord').val().trim().toUpperCase();
             if (checkWord == $selectedRow.attr('word').toUpperCase()) {
-                $selectedRow.children('td').addClass('unhiddenCard').removeClass('lastBox');
+                $selectedRow.children('td').addClass('unhiddenCard').removeClass('lastBox unhide');
                 $selectedRow.removeClass('unsolved');
-                var index = $selectedRow.attr('index');
+                let index = $selectedRow.attr('index');
                 unhideUnavailableRow[index] = 0;
                 (index == 1 || index == 2
                     ? unhideUnavailableRow[++index] = 1
@@ -398,7 +423,6 @@
                     addScore(teamTurnIndex, 10);
                 }
                 displayScore();
-                teamTurn();
             }
             else {
                 $selectedRow.children('.lastBox').removeClass('lastBox').addClass('unhide');
@@ -408,10 +432,8 @@
                     teamTurnIndex = 0;
                 else
                     teamTurnIndex++;
-
-                teamTurn();
-
             }
+            teamTurn();
         }
     });
     function fullChainForm() {
@@ -431,7 +453,63 @@
             $('body').removeClass('blue');
         }
     });
-    $('#help, .helpButton, .modal-header button, .modal-footer button').click(function () {
-        $('#helpModal').modal('toggle');
+    $('#leaderboardIcon').click(function () {
+        leaderBoardCreate();
+    });
+    function leaderBoardCreate(value) {
+        let topTeam = localStorage.getItem('topTeam');
+        let tmpValue = []; //tmpValue format - [TeamName=Score=Date];
+        (topTeam ? topTeam = topTeam.split(',') : topTeam = []); //include stored value
+        if (value == 'endGame') {
+            for (let i = 0; i < playingTeamCount; i++) {
+                if (playingTeam[i].score)
+                    topTeam.push(playingTeam[i].name + '=' + playingTeam[i].score + '=' + currentDateTime());
+            }
+            localStorage.setItem('topTeam', topTeam);
+        }
+        if (topTeam) {
+            for (let i = 0; i < topTeam.length; i++) {
+                let Obj = {
+                    teamName: (topTeam[i].split('='))[0],
+                    teamScore: (topTeam[i].split('='))[1],
+                    gameTime: (topTeam[i].split('='))[2]
+                };
+                tmpValue.push(Obj);
+            }
+            tmpValue.sort(function (a, b) {
+                return b.teamScore - a.teamScore;
+            });
+            $('#leaderboard .modal-body').html('<table class="table"><thead><th>Team</th><th>Score</th><th>When</th></thead><tbody></tbody></table>');
+            for (let i = 0; i < 5 && i < tmpValue.length; i++) { // display max 5 Top scorer teams
+                $('#leaderboard .modal-body tbody').append('<tr><td>' + tmpValue[i].teamName + '</td><td>' + tmpValue[i].teamScore + '</td><td>' + tmpValue[i].gameTime + '</td></tr>');
+            }
+        }
+        $('#leaderboard').modal('toggle');
+    }
+    $('.endGame').click(function () {
+        leaderBoardCreate('endGame');
+        resetGame();
+    });
+    function resetGame() {
+        $('.displayBox').removeClass('col-md-6 ').addClass('col-md-12').css({ 'align-items': 'unset' });
+        $('#team').show();
+        $('.controlPanel, .scoreBoard, #GameOn, .nextButton, .endGame').removeClass('displayFlex');
+        initialValue();
+    }
+    $('#leaderboard .modal-header button, #leaderboard .modal-footer button').click(function () {
+        $('#leaderboard').modal('toggle');
     })
+    $('#help, .helpButton, #helpModal .modal-header button, #helpModal .modal-footer button').click(function () {
+        $('#helpModal').modal('toggle');
+    });
+    function currentDateTime() {
+        let currentDate = new Date();
+        let cDay = currentDate.getDate()
+        let cMonth = currentDate.getMonth() + 1
+        let cYear = currentDate.getFullYear();
+        let hour = currentDate.getHours();
+        let minute = currentDate.getMinutes();
+        let time = currentDate.getHours() + ":" + (minute < 10 ? '0' + minute : minute);
+        return (cDay + '/' + cMonth + '/' + cYear + ' ' + time);
+    }
 </script>

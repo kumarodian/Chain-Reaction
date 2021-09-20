@@ -44,3 +44,13 @@ svg path {
 .availableRow .unhide {
     background: #0c7181;
 }
+#checkWordBox div:nth-child(1) {
+    color: #606060;
+}
+#teamGuessWord {
+    color: #446897;
+}
+#leaderboardIcon svg path{
+    stroke: none;
+    fill: #008175;
+}

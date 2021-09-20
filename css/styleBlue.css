@@ -65,3 +65,13 @@
 .blue .availableRow .unhide{
     background: #0b0f72;
 }
+.blue #checkWordBox div:nth-child(1) {
+    color: #4c51c2;
+}
+.blue #teamGuessWord {
+    color: #ffffff;
+}
+.blue #leaderboardIcon svg path{
+    stroke: none;
+    fill: #ffffff;
+}

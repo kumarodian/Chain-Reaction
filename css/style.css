@@ -28,7 +28,16 @@ main {
     cursor: pointer;
     width: fit-content;
 }
-
+#leaderboardIcon{
+    position: absolute;
+    right: 115px;
+    top: 5px;
+    cursor: pointer;
+}
+#leaderboardIcon svg{
+    height: 32px;
+    width: auto;
+}
 .intro {
     z-index: 3;
 }
@@ -173,20 +182,17 @@ main {
 }
 
 @keyframes animateCircle1 {
-    from {
-        transform: translate(0%, 0%);
+    from, to {
+        transform: translate(0, 0);
     }
     25% {
-        transform: translate(-50%, 30%);
+        transform: translate(-30px, 10px);
     }
     50% {
-        transform: translate(-40%, 60%);
+        transform: translate(-20px, 50px);
     }
     75% {
-        transform: translate(10%, 40%);
-    }
-    to {
-        transform: translate(0%, 0%);
+        transform: translate(5px, 20px);
     }
 }
 
@@ -197,7 +203,7 @@ main {
 }
 
 @keyframes animateCircle2 {
-    from {
+    from, to {
         transform: translate(0, 0);
     }
     25% {
@@ -208,9 +214,6 @@ main {
     }
     75% {
         transform: translate(-3px, -30px);
-    }
-    to {
-        transform: translate(0, 0);
     }
 }
 
@@ -259,6 +262,11 @@ table td {
     font-family: monospace;
     text-transform: uppercase;
     cursor: pointer;
+}
+#leaderboard .modal-body tbody td{
+    font-size: 16px;
+    text-transform: capitalize;
+    cursor: default;
 }
 
 .unsolved td {
@@ -451,13 +459,11 @@ div#teamName input {
 
 #checkWordBox div:nth-child(1) {
     margin-bottom: 20px;
-    color: #606060;
     font-weight: bold;
 }
 
 #teamGuessWord {
     text-transform: capitalize;
-    color: #446897;
     font-size: 18px;
 }
 
