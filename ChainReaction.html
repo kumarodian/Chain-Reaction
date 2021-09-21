@@ -335,6 +335,7 @@
         var i = index[indexTrack];
         unhideUnavailableRow = [0, 1, 0, 0, 1]; //reset row tracker
         $('.firstWord, .secondWord, .thirdWord, .fourthWord, .fifthWord, .lastWord').html('');
+        $('#GameOn').removeClass('fullChainForm');
         $('.secondWord, .thirdWord, .fourthWord, .fifthWord').addClass('unsolved').removeClass('currentRow');
         for (var j = 0; j < list[i].length; j++) {
             var newStr = list[i][j].split("");
@@ -437,7 +438,7 @@
         }
     });
     function fullChainForm() {
-
+        $('#GameOn').addClass('fullChainForm');
     }
     function enterKeyPressed(event) {
         if (event.keyCode == 13) {
