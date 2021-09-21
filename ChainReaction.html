@@ -460,30 +460,32 @@
     function leaderBoardCreate(value) {
         let topTeam = localStorage.getItem('topTeam');
         let tmpValue = []; //tmpValue format - [TeamName=Score=Date];
-        (topTeam ? topTeam = topTeam.split(',') : topTeam = []); //include stored value
+        topTeam = (topTeam ? topTeam.split(',') : []); //include stored value
         if (value == 'endGame') {
             for (let i = 0; i < playingTeamCount; i++) {
                 if (playingTeam[i].score)
                     topTeam.push(playingTeam[i].name + '=' + playingTeam[i].score + '=' + currentDateTime());
             }
-            localStorage.setItem('topTeam', topTeam);
         }
-        if (topTeam) {
+        if (topTeam.length) {
             for (let i = 0; i < topTeam.length; i++) {
                 let Obj = {
-                    teamName: (topTeam[i].split('='))[0],
-                    teamScore: (topTeam[i].split('='))[1],
-                    gameTime: (topTeam[i].split('='))[2]
+                    name: (topTeam[i].split('='))[0],
+                    score: (topTeam[i].split('='))[1],
+                    time: (topTeam[i].split('='))[2]
                 };
                 tmpValue.push(Obj);
             }
             tmpValue.sort(function (a, b) {
-                return b.teamScore - a.teamScore;
+                return b.score - a.score;
             });
+            topTeam = []; //reset to store only top 5 values
             $('#leaderboard .modal-body').html('<table class="table"><thead><th>Team</th><th>Score</th><th>When</th></thead><tbody></tbody></table>');
             for (let i = 0; i < 5 && i < tmpValue.length; i++) { // display max 5 Top scorer teams
-                $('#leaderboard .modal-body tbody').append('<tr><td>' + tmpValue[i].teamName + '</td><td>' + tmpValue[i].teamScore + '</td><td>' + tmpValue[i].gameTime + '</td></tr>');
+                $('#leaderboard .modal-body tbody').append('<tr><td>' + tmpValue[i].name + '</td><td>' + tmpValue[i].score + '</td><td>' + tmpValue[i].time + '</td></tr>');
+                topTeam.push(tmpValue[i].name + '=' + tmpValue[i].score + '=' + tmpValue[i].time);
             }
+            localStorage.setItem('topTeam',topTeam); // store olny Top 5 Scorer
         }
         $('#leaderboard').modal('toggle');
     }
