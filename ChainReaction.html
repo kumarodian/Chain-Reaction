@@ -480,7 +480,7 @@
                 return b.score - a.score;
             });
             topTeam = []; //reset to store only top 5 values
-            $('#leaderboard .modal-body').html('<table class="table"><thead><th>Team</th><th>Score</th><th>When</th></thead><tbody></tbody></table>');
+            $('#leaderboard .modal-body').html('<div id="leaderBoardWarnMsg">These are stored locally on your system</div><table class="table"><thead><th>Team</th><th>Score</th><th>When</th></thead><tbody></tbody></table>');
             for (let i = 0; i < 5 && i < tmpValue.length; i++) { // display max 5 Top scorer teams
                 $('#leaderboard .modal-body tbody').append('<tr><td>' + tmpValue[i].name + '</td><td>' + tmpValue[i].score + '</td><td>' + tmpValue[i].time + '</td></tr>');
                 topTeam.push(tmpValue[i].name + '=' + tmpValue[i].score + '=' + tmpValue[i].time);

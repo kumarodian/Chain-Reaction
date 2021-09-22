@@ -263,10 +263,14 @@ table td {
     text-transform: uppercase;
     cursor: pointer;
 }
+#leaderboard table tr {
+    text-align: center;
+}
 #leaderboard .modal-body tbody td{
     font-size: 16px;
     text-transform: capitalize;
     cursor: default;
+    height: initial;
 }
 
 .unsolved td {
@@ -577,4 +581,12 @@ input:checked+.slider:before {
 
 .slider.round:before {
     border-radius: 50%;
+}
+#leaderBoardWarnMsg{
+    text-align: center;
+    font-size: 14px;
+    padding: 5px;
+    background: #fff9ae;
+    border-radius: 5px;
+    color: #7f4000;
 }
