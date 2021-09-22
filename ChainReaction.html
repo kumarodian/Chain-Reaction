@@ -464,7 +464,7 @@
         if (value == 'endGame') {
             for (let i = 0; i < playingTeamCount; i++) {
                 if (playingTeam[i].score)
-                    topTeam.push(playingTeam[i].name + '=' + playingTeam[i].score + '=' + currentDateTime());
+                    topTeam.push(playingTeam[i].name + '=' + playingTeam[i].score + '=' + currentDateTime().format + '=newRecord');
             }
         }
         if (topTeam.length) {
@@ -472,7 +472,8 @@
                 let Obj = {
                     name: (topTeam[i].split('='))[0],
                     score: (topTeam[i].split('='))[1],
-                    time: (topTeam[i].split('='))[2]
+                    time: (topTeam[i].split('='))[2],
+                    isNewRecord: ((topTeam[i].split('='))[3] == 'newRecord' ? true : false ) //to show NEW badge on leaderBoard
                 };
                 tmpValue.push(Obj);
             }
@@ -482,7 +483,7 @@
             topTeam = []; //reset to store only top 5 values
             $('#leaderboard .modal-body').html('<div id="leaderBoardWarnMsg">These are stored locally on your system</div><table class="table"><thead><th>Team</th><th>Score</th><th>When</th></thead><tbody></tbody></table>');
             for (let i = 0; i < 5 && i < tmpValue.length; i++) { // display max 5 Top scorer teams
-                $('#leaderboard .modal-body tbody').append('<tr><td>' + tmpValue[i].name + '</td><td>' + tmpValue[i].score + '</td><td>' + tmpValue[i].time + '</td></tr>');
+                $('#leaderboard .modal-body tbody').append('<tr><td>' + tmpValue[i].name + (tmpValue[i].isNewRecord ? '<span class="newrecord">NEW</span>' : '') + '</td><td>' + tmpValue[i].score + '</td><td>' + tmpValue[i].time + '</td></tr>');
                 topTeam.push(tmpValue[i].name + '=' + tmpValue[i].score + '=' + tmpValue[i].time);
             }
             localStorage.setItem('topTeam',topTeam); // store olny Top 5 Scorer
@@ -510,9 +511,17 @@
         let cDay = currentDate.getDate()
         let cMonth = currentDate.getMonth() + 1
         let cYear = currentDate.getFullYear();
-        let hour = currentDate.getHours();
-        let minute = currentDate.getMinutes();
-        let time = currentDate.getHours() + ":" + (minute < 10 ? '0' + minute : minute);
-        return (cDay + '/' + cMonth + '/' + cYear + ' ' + time);
+        let cHour = currentDate.getHours();
+        let cMinute = currentDate.getMinutes();
+        let time = (cHour > 12 ? cHour - 12 : cHour) + ":" + (cMinute < 10 ? '0' + cMinute : cMinute) + ((cHour > 12 ? ' PM' : ' AM'));
+        let day = {
+            date: cDay,
+            month: cMonth,
+            year: cYear,
+            hour: cHour,
+            minute: cMinute,
+            format: (cDay + '/' + cMonth + '/' + cYear + ' ' + time)
+        }
+        return day;
     }
 </script>

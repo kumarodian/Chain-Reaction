@@ -273,6 +273,14 @@ table td {
     height: initial;
 }
 
+#leaderboard .newrecord {
+    background: linear-gradient( 45deg, #ff00eb, red);
+    color: #ffffff;
+    margin-left: 5px;
+    font-size: 12px;
+    padding: 2px 5px;
+    border-radius: 3px;
+}
 .unsolved td {
     color: transparent;
 }
