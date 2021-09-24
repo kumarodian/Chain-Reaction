@@ -236,8 +236,10 @@
         $('#teamName4').val(team[3].name);
         teamTurnIndex = 0;
         timerEnabled = false;
+        $('#timer').prop('checked', false); 
+        $('#timerInput').hide();
+        $('#timerVal').val('01:00');
         timer = null;
-        controller = null;
     }
     $(function () {
         setTimeout(() => { // Hide Intro message and Show Team Select
@@ -563,6 +565,10 @@
         $('.displayBox').removeClass('col-md-6 ').addClass('col-md-12').css({ 'align-items': 'unset' });
         $('#team').show();
         $('.controlPanel, .scoreBoard, #GameOn, .nextButton, .endGame').removeClass('displayFlex');
+        if(timerEnabled){
+            clearInterval(controller);
+            $('#curTimer').html('');
+        }
         initialValue();
     }
     $('#leaderboard .modal-header button, #leaderboard .modal-footer button').click(function () {
