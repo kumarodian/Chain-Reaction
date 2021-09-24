@@ -598,3 +598,20 @@ input:checked+.slider:before {
     border-radius: 5px;
     color: #7f4000;
 }
+#timer {
+    height: 20px;
+    width: 35px;
+}
+#timerInput {
+    display: none;
+}
+#timerVal {
+    width: 90px;
+    margin: auto;
+    border-radius: 2px !important;
+    text-align: center;
+}
+#curTimer span {
+    background: #ffffff9c;
+    padding: 10px;
+}

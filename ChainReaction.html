@@ -126,6 +126,14 @@
                                         <button class="btn btn-primary">Start Game</button>
                                     </div>
                                     <div class="helpButton">How to Play?</div>
+                                    <div id="timeBased">
+                                        <input type="checkbox" id="timer" name="timer">
+                                        <label for="timer">Time Based</label>
+                                        <div id="timerInput">
+                                            <input type="text" id="timerVal" class="form-control" placeholder="00:00"
+                                                value="01:00" title="minute : second">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -133,6 +141,7 @@
                 </div>
                 <div class="col-md-3 controlPanel">
                     <div id="checkWordBox">
+                        <div id="curTimer"></div>
                         <div><span id="teamGuessWord"></span><br><span>Guess Word</span></div>
                         <div><input id="checkWord" onkeypress="return enterKeyPressed(event)" /></div>
                         <br />
@@ -211,7 +220,7 @@
 </body>
 <script>
     const list = [["Credit", "Check", "Please", "Hold", "Fast", "Food"], ["Cocoa", "Powder", "Blue", "Moon", "Landing", "Gear"], ["Freezing", "Cold", "Sweat", "Shirt", "Button", "Nose"], ["Crushed", "Ice", "Water", "Garden", "Party", "Animal"], ["Glass", "Bubble", "Bath", "Tub", "Stained", "Teeth"], ["Under", "Water", "Gun", "Down", "Town", "Hall"], ["Fire", "Fly", "Weight", "Training", "Day", "Dream"], ["Certain", "Death", "bed", "head", "Master", "Bathroom"], ["simple", "life", "long", "hair", "raising", "money"], ["bowling", "pin", "code", "red", "cross", "country"], ["user", "friendly", "fire", "escape", "artist", "unknown"], ["funky", "town", "square", "foot", "long", "weekend"], ["hidden", "talent", "scout", "leader", "board", "meeting"], ["nothing", "left", "turn", "around", "town", "house"], ["street", "food", "chain", "reaction", "TIME", "CARD"], ["MONKEY", "BUSINESS", "CLASS", "ROOM", "KEY", "CHAIN"], ["CITY", "HALL", "PASS", "OUT", "COLD", "water"], ["chain", "smoke", "signal", "booster", "seat", "belt"], ["bouncing", "baby", "grand", "piano", "key", "chain"], ["away", "game", "time", "travel", "light", "wave"], ["child", "birth", "day", "after", "school", "shopping"], ["remain", "active", "wear", "out", "cry", "baby"], ["fence", "post", "master", "lock", "jaw", "bone"], ["dirty", "dish", "soap", "box", "spring", "break"], ["sweet", "tooth", "fairy", "dust", "cover", "letter"], ["essential", "oil", "field", "hockey", "team", "leader"], ["lemon", "grass", "stain", "proof", "read", "along"], ["authority", "figure", "head", "band", "member", "services"], ["forbidden", "fruit", "cocktail", "dress", "rehearsal", "dinner"], ["grand", "father", "time", "trial", "run", "around"], ["sliced", "bread", "pudding", "pop", "culture", "clash"], ["bullet", "train", "track", "team", "building", "block"], ["sea", "monster", "movie", "theater", "curtain", "call"]];
-    var index, indexTrack, maxWordLen, maxWordLen, unhideUnavailableRow, playingTeamCount = 1, teamTurnIndex, team, playingTeam;
+    var index, indexTrack, maxWordLen, maxWordLen, unhideUnavailableRow, playingTeamCount = 1, teamTurnIndex, team, playingTeam, timerEnabled, timer, controller;
     initialValue();
     function initialValue() {
         index = randomIndex(list.length);
@@ -226,6 +235,9 @@
         $('#teamName3').val(team[2].name);
         $('#teamName4').val(team[3].name);
         teamTurnIndex = 0;
+        timerEnabled = false;
+        timer = null;
+        controller = null;
     }
     $(function () {
         setTimeout(() => { // Hide Intro message and Show Team Select
@@ -254,6 +266,8 @@
                     $('#teamTurn').hide();
                     $('#checkWordBox').show();
                     $('#checkWord').val('');
+                    if (timerEnabled) // start timer if time enabled
+                        timeControl();
                     animAvailableRow();
                 }
             }
@@ -273,6 +287,51 @@
                 $('.team1').addClass('displayFlex'); $('.team4, .team3, .team2').removeClass('displayFlex');
         }
     });
+    $('input[type=checkbox][name=timer]').change(function () {
+        if ($('#timer').is(':checked')) {
+            $('#timerInput').show();
+            timerEnabled = true;
+        }
+        else {
+            $('#timerInput').hide();
+            timerEnabled = false;
+        }
+    });
+
+    function timeControl() {
+        let min = parseInt(timer.split(':')[0]) || 0,
+            sec = parseInt(timer.split(':')[1]);
+        if (min == NaN && sec == NaN) { //if timer selected and timer input is empty
+            min = 1;
+            sec = 0;
+        }
+        min = (min > 60 ? 59 : min);
+        sec = (sec > 60 ? 59 : sec);
+        if (min || sec) // start timer only if value > 0
+            controller = setInterval(countDown, 1000);
+        function countDown() {
+            min = parseInt(min);
+            sec = parseInt(sec);
+            min = (min < 10 ? ('0' + min) : min);
+            sec = (sec < 10 ? ('0' + sec) : sec);
+            $('#curTimer').html('<span>' + min + ' : ' + sec + '</span>');
+            if (min > 0) {
+                if (sec == 0) { min--; sec = 59; }
+                else
+                    sec--;
+            }
+            else if (min == 0 && sec > 0) {
+                sec--;
+            }
+            else if (sec == 0) {
+                clearInterval(controller);
+                controller = null;
+                $('#curTimer').html('');
+                $('.checkWordBtn').trigger('click');
+            }
+        }
+    }
+
     $('#startGameBtn button').click(function () {
         for (var index = 0; index < playingTeamCount; index++) {
             playingTeam.push(team[index]);
@@ -318,15 +377,15 @@
 
     function loopAlphabetStyle(className, currentIndex, word) {
         $(className).append('<td></td>');
-        let timer = null;
+        let aplhabetLoopTimer = null;
         let x = 0;
         word = (word == undefined ? '' : word);
-        timer = setInterval(() => {
+        aplhabetLoopTimer = setInterval(() => {
             $(className).children().eq(currentIndex).html(generateRandomLetter());
             x++;
             if (x >= maxWordLen) {
-                clearInterval(timer);
-                timer = null;
+                clearInterval(aplhabetLoopTimer);
+                aplhabetLoopTimer = null;
                 $(className).children().eq(currentIndex).html(word);
             }
         }, 130);
@@ -334,6 +393,8 @@
     function gameInitialSetup() {
         var i = index[indexTrack];
         unhideUnavailableRow = [0, 1, 0, 0, 1]; //reset row tracker
+        if (timerEnabled) //check if timer based choice
+            timer = $('#timerVal').val();
         $('.firstWord, .secondWord, .thirdWord, .fourthWord, .fifthWord, .lastWord').html('');
         $('#GameOn').removeClass('fullChainForm');
         $('.secondWord, .thirdWord, .fourthWord, .fifthWord').addClass('unsolved').removeClass('currentRow');
@@ -404,7 +465,11 @@
         return returnArr;
     }
     $('.checkWordBtn').click(function () {
-        if ($('#checkWord').val().trim().length) {
+        if ($('#checkWord').val().trim().length || (timerEnabled && controller == null)) {
+            if (timerEnabled) { //reset timer if guessed before timer went off
+                clearInterval(controller);
+                $('#curTimer').html('');
+            }
             $currClass.removeClass('currentRow'); //remove animation
             var checkWord = $('#checkWord').val().trim().toUpperCase();
             if (checkWord == $selectedRow.attr('word').toUpperCase()) {
@@ -473,7 +538,7 @@
                     name: (topTeam[i].split('='))[0],
                     score: (topTeam[i].split('='))[1],
                     time: (topTeam[i].split('='))[2],
-                    isNewRecord: ((topTeam[i].split('='))[3] == 'newRecord' ? true : false ) //to show NEW badge on leaderBoard
+                    isNewRecord: ((topTeam[i].split('='))[3] == 'newRecord' ? true : false) //to show NEW badge on leaderBoard
                 };
                 tmpValue.push(Obj);
             }
@@ -486,7 +551,7 @@
                 $('#leaderboard .modal-body tbody').append('<tr><td>' + tmpValue[i].name + (tmpValue[i].isNewRecord ? '<span class="newrecord">NEW</span>' : '') + '</td><td>' + tmpValue[i].score + '</td><td>' + tmpValue[i].time + '</td></tr>');
                 topTeam.push(tmpValue[i].name + '=' + tmpValue[i].score + '=' + tmpValue[i].time);
             }
-            localStorage.setItem('topTeam',topTeam); // store olny Top 5 Scorer
+            localStorage.setItem('topTeam', topTeam); // store only Top 5 Scorer
         }
         $('#leaderboard').modal('toggle');
     }
