@@ -28,18 +28,25 @@ main {
     cursor: pointer;
     width: fit-content;
 }
-#leaderboardIcon{
+
+#leaderboardIcon {
     position: absolute;
     right: 115px;
     top: 5px;
     cursor: pointer;
 }
-#leaderboardIcon svg{
+
+#leaderboardIcon svg {
     height: 32px;
     width: auto;
 }
-.intro {
+
+.intro, .switch, #help, #leaderboardIcon {
     z-index: 3;
+}
+
+.intro svg {
+    width: 100%;
 }
 
 #introText path:nth-child(2) {
@@ -263,10 +270,12 @@ table td {
     text-transform: uppercase;
     cursor: pointer;
 }
+
 #leaderboard table tr {
     text-align: center;
 }
-#leaderboard .modal-body tbody td{
+
+#leaderboard .modal-body tbody td {
     font-size: 16px;
     text-transform: capitalize;
     cursor: default;
@@ -281,6 +290,7 @@ table td {
     padding: 2px 5px;
     border-radius: 3px;
 }
+
 .unsolved td {
     color: transparent;
 }
@@ -293,6 +303,10 @@ table td {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.controlPanel {
+    margin: auto;
 }
 
 .nextButton {
@@ -496,26 +510,31 @@ div#teamName input {
     }
 }
 
-.fullChainForm tr:nth-child(1){
+.fullChainForm tr:nth-child(1) {
     animation: lastBoxAnimate 1s ease;
 }
-.fullChainForm tr:nth-child(2){
+
+.fullChainForm tr:nth-child(2) {
     animation: lastBoxAnimate 1s ease;
     animation-iteration-count: 2;
 }
-.fullChainForm tr:nth-child(3){
+
+.fullChainForm tr:nth-child(3) {
     animation: lastBoxAnimate 1s ease 1s;
     animation-iteration-count: 2;
 }
-.fullChainForm tr:nth-child(4){
+
+.fullChainForm tr:nth-child(4) {
     animation: lastBoxAnimate 1s ease 2s;
     animation-iteration-count: 2;
 }
-.fullChainForm tr:nth-child(5){
+
+.fullChainForm tr:nth-child(5) {
     animation: lastBoxAnimate 1s ease 3s;
     animation-iteration-count: 2;
 }
-.fullChainForm tr:nth-child(6){
+
+.fullChainForm tr:nth-child(6) {
     animation: lastBoxAnimate 1s ease 4s;
 }
 
@@ -590,7 +609,8 @@ input:checked+.slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
-#leaderBoardWarnMsg{
+
+#leaderBoardWarnMsg {
     text-align: center;
     font-size: 14px;
     padding: 5px;
@@ -598,20 +618,99 @@ input:checked+.slider:before {
     border-radius: 5px;
     color: #7f4000;
 }
+
 #timer {
     height: 20px;
     width: 35px;
 }
+
 #timerInput {
     display: none;
 }
+
 #timerVal {
     width: 90px;
     margin: auto;
     border-radius: 2px !important;
     text-align: center;
 }
+
 #curTimer span {
     background: #ffffff9c;
     padding: 10px;
+}
+
+@media only screen and (max-width: 480px) {
+    .glass {
+        width: 100%;
+        margin-top: 55px;
+    }
+    .teamSelect input {
+        height: 20px;
+        width: 20px;
+    }
+    .teamSelect label {
+        margin-right: 20px;
+    }
+    table td {
+        min-width: 35px;
+        height: 50px;
+        font-size: 30px;
+    }
+    .controlPanel {
+        margin-bottom: 80px;
+    }
+    .endGame {
+        left: 10px;
+    }
+    .nextButton {
+        bottom: 0;
+    }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 768px) {
+    .glass {
+        width: 90%;
+        margin-top: 55px;
+    }
+    table td {
+        min-width: 44px;
+        height: 50px;
+        font-size: 30px;
+    }
+    #teamTurn {
+        width: 70%;
+        margin: auto;
+    }
+    .controlPanel {
+        margin-bottom: 80px;
+    }
+    .endGame {
+        left: 10px;
+    }
+    .nextButton {
+        bottom: 0;
+    }
+    .controlPanel input, .controlPanel button {
+        width: 50%;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    .glass, .mainDisplay {
+        margin-top: 55px;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1440px) {
+    .glass {
+        width: 95%;
+        margin: 0 15px;
+    }
+}
+
+@media only screen and (min-width: 1440px) {
+    .glass {
+        width: 1150px;
+    }
 }

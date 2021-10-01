@@ -90,8 +90,8 @@
         <section class="glass">
             <div class="nextButton">Next &#10154;</div>
             <div class="row mainDisplay">
-                <div class="col-md-3 scoreBoard"></div>
-                <div class="col-md-12 displayBox">
+                <div class="col-md-3 col-lg-3 scoreBoard"></div>
+                <div class="col-md-12 col-lg-12 displayBox">
                     <table id="GameOn">
                         <tbody>
                             <tr class="firstWord"></tr>
@@ -139,7 +139,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 controlPanel">
+                <div class="col-md-6 col-lg-3 controlPanel">
                     <div id="checkWordBox">
                         <div id="curTimer"></div>
                         <div><span id="teamGuessWord"></span><br><span>Guess Word</span></div>
@@ -236,7 +236,7 @@
         $('#teamName4').val(team[3].name);
         teamTurnIndex = 0;
         timerEnabled = false;
-        $('#timer').prop('checked', false); 
+        $('#timer').prop('checked', false);
         $('#timerInput').hide();
         $('#timerVal').val('01:00');
         timer = null;
@@ -340,7 +340,7 @@
             var tmp = '#teamName' + (index + 1);
             playingTeam[index].name = $(tmp).val().trim() || team[index].name;
         }
-        $('.displayBox').removeClass('col-md-12').addClass('col-md-6').css({ 'align-items': 'center' });
+        $('.displayBox').removeClass('col-lg-12 col-md-12').addClass('col-lg-6 col-md-9').css({ 'align-items': 'center' });
         $('#team').hide();
         $('.controlPanel, .scoreBoard, #GameOn, .nextButton, .endGame').addClass('displayFlex');
         gameInitialSetup();
@@ -562,10 +562,10 @@
         resetGame();
     });
     function resetGame() {
-        $('.displayBox').removeClass('col-md-6 ').addClass('col-md-12').css({ 'align-items': 'unset' });
+        $('.displayBox').removeClass('col-lg-6 col-md-9').addClass('col-lg-12 col-md-12').css({ 'align-items': 'unset' });
         $('#team').show();
         $('.controlPanel, .scoreBoard, #GameOn, .nextButton, .endGame').removeClass('displayFlex');
-        if(timerEnabled){
+        if (timerEnabled) {
             clearInterval(controller);
             $('#curTimer').html('');
         }
